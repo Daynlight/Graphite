@@ -70,7 +70,7 @@ int Graphite::ScriptLoader::compile() {
     "g++",
     "-rdynamic",
     "-shared", 
-    "-fPIC", 
+    "-fPIC",
     "-o", (outDir + filename + ".so").c_str(), 
     (filename + ".cpp").c_str(), 
     nullptr
