@@ -10,6 +10,8 @@
 
 
 bool verbose_mode = 0;
+CW::Renderer::Renderer* renderer = nullptr;
+CW::Renderer::Mesh* canvas = nullptr;
 
 
 namespace Graphite{
@@ -138,21 +140,40 @@ void Graphite::App::run(int args, const char *argv[]){
 
 
 void Graphite::App::runProgram(){
-  CW::Renderer::Renderer renderer;
-  renderer.setWindowTitle("Graphite");
+  renderer = new CW::Renderer::Renderer();
+  renderer->setWindowTitle("Graphite");
+
+  glEnable(GL_BLEND);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 
   Graphite::ScriptLoader script("Main");
 
 
-  while(!renderer.getWindowData()->should_close){
-    renderer.beginFrame();
+  canvas = new CW::Renderer::Mesh(
+  {
+    -1.0f,  1.0f, 0.0f,
+    -1.0f, -1.0f, 0.0f,
+    1.0f,  1.0f, 0.0f,
+    1.0f, -1.0f, 0.0f,
+  }, 
+  {
+    0, 1, 2,
+    1, 3, 2
+  });
+
+
+  while(!renderer->getWindowData()->should_close){
+    renderer->beginFrame();
 
     script.checkLastWrite();
 
     script.update();
 
-    renderer.swapBuffer();
-    renderer.windowEvents();
+    renderer->swapBuffer();
+    renderer->windowEvents();
   };
 
+  delete canvas;
+  delete renderer;
 };

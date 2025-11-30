@@ -68,6 +68,7 @@ int Graphite::ScriptLoader::compile() {
   const char* command = "g++";
   const char* argv[] = {
     "g++",
+    "-rdynamic",
     "-shared", 
     "-fPIC", 
     "-o", (outDir + filename + ".so").c_str(), 
