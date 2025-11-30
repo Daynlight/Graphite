@@ -23,6 +23,19 @@ For who it is:
 - [Cat](#cat)
 
 ## Installation
+```bash
+  git clone --recursive https://github.com/daynlight/Graphite.git
+  cd Graphite
+
+  mkdir -p build
+  cd build
+  cmake ..
+  cmake --build . --config Release
+  cd ..
+
+  sudo cmake --install build/ --config Release
+  cd ..
+```
 
 ## Usage
 
