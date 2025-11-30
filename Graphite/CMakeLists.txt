@@ -5,6 +5,7 @@ project(Graphite LANGUAGES CXX)
 
 set(src
   Main.cpp
+  ScriptController/ScriptController.cpp
 )
 
 set(headers
