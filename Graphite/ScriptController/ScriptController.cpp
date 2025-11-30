@@ -79,6 +79,16 @@ int Graphite::ScriptLoader::compile() {
 
   pid_t pid = fork();
   if(pid == 0){
+
+  if(!verbose_mode) {
+    int devnull = open("/dev/null", O_WRONLY);
+    if(devnull != -1) {
+      dup2(devnull, STDOUT_FILENO);
+      dup2(devnull, STDERR_FILENO);
+      close(devnull);
+    }
+  }
+
     execvp(command, const_cast<char* const*>(argv)); 
     printf("Failed to exec g++\n");
     return -1;

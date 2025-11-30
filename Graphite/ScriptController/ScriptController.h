@@ -9,6 +9,7 @@
 #include <unistd.h>
 #include <sys/wait.h>
 #include <dlfcn.h>
+#include <fcntl.h>
 
 
 namespace Graphite{
