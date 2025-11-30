@@ -2,6 +2,17 @@
 
 Graphite::Math::Point::Point(float x, float y, float r, float g, float b)
   :x(x), y(y), r(r), g(g), b(b){
+
+  uniform_ref = (void*)new CW::Renderer::Uniform();
+  shader_ref = (void*)new CW::Renderer::DrawShader(vertexPointShader, fragmentPointShader);
+
+  CW::Renderer::Uniform* u = (CW::Renderer::Uniform*)uniform_ref;
+  CW::Renderer::DrawShader* s = (CW::Renderer::DrawShader*)shader_ref;
+
+  (*u)["color"]->set<glm::vec3>({r, g, b});
+  (*u)["pos"]->set<glm::vec2>({x, y});
+
+  s->getUniforms().emplace_back(u);
 };
 
 
@@ -12,13 +23,8 @@ Graphite::Math::Point::Point(float x, float y, float r, float g, float b)
 
 
 void Graphite::Math::Point::drawPoint(){
-  shader.getUniforms().clear();
-  uniform["color"]->set<glm::vec3>({r, g, b});
-  uniform["pos"]->set<glm::vec2>({x, y});
-  shader.getUniforms().emplace_back(&uniform);
-  shader.compile();
-
-  shader.bind();
+  CW::Renderer::DrawShader* s = (CW::Renderer::DrawShader*)shader_ref;
+  s->bind();
   canvas->render();
-  shader.unbind();
+  s->unbind();
 };

@@ -19,7 +19,7 @@ class Script : ScriptInterface{
 
   void Update(){
     points->drawPoint();
-    points2->drawPoint();
+    // points2->drawPoint();
   };
 
   void Destroy(){
