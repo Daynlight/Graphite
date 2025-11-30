@@ -1,0 +1,3 @@
+[submodule "vendor/CWindow"]
+	path = vendor/CWindow
+	url = https://github.com/daynlight/CWindow
