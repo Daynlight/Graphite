@@ -1,29 +1,10 @@
-#include "Renderer.h"
+#include "Graphite.h"
 
 
-#include "ScriptController/ScriptController.h"
+int main(int args, const char* argv[]){
+  Graphite::App app;
 
-
-
-int main(){
-  CW::Renderer::Renderer renderer;
-  renderer.setWindowTitle("Graphite");
-
-  Graphite::ScriptLoader script("Script");
-
-
-
-
-  while(!renderer.getWindowData()->should_close){
-    renderer.beginFrame();
-
-    script.checkLastWrite();
-
-    script.update();
-
-    renderer.swapBuffer();
-    renderer.windowEvents();
-  };
+  app.run(args, argv);
 
   return 0;
 };

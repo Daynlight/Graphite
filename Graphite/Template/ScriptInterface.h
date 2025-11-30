@@ -1,5 +1,5 @@
-
-#pragma once
+const char* ScriptInterfaceTemplate = 
+R"(#pragma once
 
 
 #if defined(_WIN32) || defined(_WIN64)
@@ -21,3 +21,4 @@ public:
   virtual void Update() = 0;
   virtual void Destroy() = 0;
 };
+)";
