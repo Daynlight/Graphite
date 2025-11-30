@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Globals.h"
 #include "ScriptInterface.h"
 
 #include <string>
@@ -7,14 +8,14 @@
 
 #include <unistd.h>
 #include <sys/wait.h>
-#include <dlfcn.h> 
-
+#include <dlfcn.h>
 
 
 namespace Graphite{
 class ScriptLoader{
 private:
   std::string filename = "";
+  bool cant_find_file_print = 1;
   std::filesystem::file_time_type lastWriteTime{};
   
   void* script_handler = nullptr; 

@@ -24,5 +24,4 @@ class Script : ScriptInterface{
 extern "C" ScriptInterface* SCRIPT_API GetScript() {
   Script* script = new Script();
   return (ScriptInterface*)script;
-};  
-
+};

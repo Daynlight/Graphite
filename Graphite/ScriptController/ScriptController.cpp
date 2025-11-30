@@ -1,7 +1,7 @@
 #include "ScriptController.h"
 
 Graphite::ScriptLoader::ScriptLoader(const std::string &filename)
-  : filename(filename){}
+  : filename(filename){};
 
 
 
@@ -22,11 +22,17 @@ Graphite::ScriptLoader::~ScriptLoader(){
   
 
 void Graphite::ScriptLoader::checkLastWrite() {
-  if(!std::filesystem::exists(filename + ".cpp")){
+  bool file_exist = std::filesystem::exists(filename + ".cpp");
+
+  if(cant_find_file_print && !file_exist){
     printf("No file named: %s\n", (filename + ".cpp").c_str());
-    return;
+    cant_find_file_print = 0;
   };
   
+  if(!file_exist)
+    return;
+  
+  cant_find_file_print = 1;
   
   std::filesystem::file_time_type currentWriteTime = 
       std::filesystem::last_write_time(filename + ".cpp");
@@ -82,7 +88,8 @@ int Graphite::ScriptLoader::compile() {
     waitpid(pid, &status, 0);
 
     if (WIFEXITED(status) && WEXITSTATUS(status) == 0) { 
-      printf("Compilation successful: %s\n", (outDir + filename + ".so").c_str()); 
+      if(verbose_mode)
+        printf("Compilation successful: %s\n", (outDir + filename + ".so").c_str()); 
       return 0; 
     } 
     else { 
@@ -107,7 +114,7 @@ int Graphite::ScriptLoader::compile() {
 int Graphite::ScriptLoader::loadModule() {
   script_handler = dlopen(("dll/" + filename + ".so").c_str(), RTLD_LAZY);
   if (!script_handler) {
-      printf("Failed to load library: %s\n", dlerror());
+      printf("Failed to load script: %s\n", dlerror());
       return -1;
   };
 
