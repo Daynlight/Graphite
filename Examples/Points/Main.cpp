@@ -1,4 +1,3 @@
-
 #define  BUILDING_SCRIPT_DLL
 #include "ScriptInterface.h"
 
