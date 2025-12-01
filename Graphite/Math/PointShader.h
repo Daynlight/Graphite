@@ -5,12 +5,17 @@ std::string vertexPointShader = R"(
 #version 430 core
 
 layout(location = 0) in vec2 aPos;
-out vec4 vPos;
+
+uniform vec2 pos;
+uniform vec3 color;
+out vec3 vColor;
 
 void main() {
-  gl_Position = vec4(aPos, 0.0, 1.0);
-  vPos = gl_Position;
+    float scale = 0.01f;
+    gl_Position = vec4(aPos * scale + pos, 0.0, 1.0);
+    vColor = color;
 }
+
 
 )";
 
@@ -19,16 +24,11 @@ void main() {
 std::string fragmentPointShader = R"(
 #version 430 core
 
+in vec3 vColor;
 out vec4 FragColor;
-in vec4 vPos;
-
-uniform vec2 pos;
-uniform vec3 color;
 
 void main() {
-  if((vPos.x - pos.x)*(vPos.x - pos.x) + (vPos.y - pos.y)*(vPos.y - pos.y) < 0.0001f)
-    FragColor = vec4(color, 1.0);
-  else
-    FragColor = vec4(0.0);
+    FragColor = vec4(vColor, 1.0);
 }
+
 )";

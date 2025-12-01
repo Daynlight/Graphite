@@ -1,6 +1,5 @@
 #pragma once
 #include "Renderer.h"
-#include "Globals.h"
 
 #include "PointShader.h"
 
@@ -18,6 +17,7 @@ private:
 
   void* uniform_ref = nullptr;
   void* shader_ref = nullptr;
+  void* mesh_ref = nullptr;
 
   void init();
 public:

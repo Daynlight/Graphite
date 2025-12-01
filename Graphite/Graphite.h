@@ -148,19 +148,6 @@ void Graphite::App::runProgram(){
   Graphite::ScriptLoader script("Main");
 
 
-  canvas = new CW::Renderer::Mesh(
-  {
-    -1.0f,  1.0f, 0.0f,
-    -1.0f, -1.0f, 0.0f,
-    1.0f,  1.0f, 0.0f,
-    1.0f, -1.0f, 0.0f,
-  }, 
-  {
-    0, 1, 2,
-    1, 3, 2
-  });
-
-
   while(!renderer->getWindowData()->should_close){
     renderer->beginFrame();
 

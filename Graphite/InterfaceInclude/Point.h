@@ -14,6 +14,7 @@ private:
 
   void* uniform_ref = nullptr;
   void* shader_ref = nullptr;
+  void* mesh_ref = nullptr;
 
 public:
   Point(float x = 0.0f, float y = 0.0f, float r = 1.0f, float g = 1.0f, float b = 1.0f);

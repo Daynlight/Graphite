@@ -24,6 +24,19 @@ Graphite::Math::Point::Point(float x, float y, float r, float g, float b)
 
   uniform_ref = (void*)new CW::Renderer::Uniform();
   shader_ref = (void*)new CW::Renderer::DrawShader(vertexPointShader, fragmentPointShader);
+  mesh_ref = (void*)new CW::Renderer::Mesh({
+    -1.0f,  1.0f, 0.0f,
+    -1.0f, -1.0f, 0.0f,
+    1.0f,  1.0f, 0.0f,
+    1.0f, -1.0f, 0.0f,
+  }, 
+  {
+    0, 1, 2,
+    1, 3, 2
+  });
+
+  CW::Renderer::Mesh* m = (CW::Renderer::Mesh*)mesh_ref;
+  m->compile();
 
   init();
 };
@@ -35,8 +48,8 @@ Graphite::Math::Point::Point(float x, float y, float r, float g, float b)
 
 
 Graphite::Math::Point::~Point() {
-  CW::Renderer::Uniform* u = static_cast<CW::Renderer::Uniform*>(uniform_ref);
-  CW::Renderer::DrawShader* s = static_cast<CW::Renderer::DrawShader*>(shader_ref);
+  CW::Renderer::Uniform* u = (CW::Renderer::Uniform*)uniform_ref;
+  CW::Renderer::DrawShader* s = (CW::Renderer::DrawShader*)shader_ref;
 
   if(u) 
     delete u;
@@ -102,8 +115,9 @@ void Graphite::Math::Point::setColors(float r, float g, float b) {
 
 void Graphite::Math::Point::drawPoint(){
   CW::Renderer::DrawShader* s = (CW::Renderer::DrawShader*)shader_ref;
+  CW::Renderer::Mesh* m = (CW::Renderer::Mesh*)mesh_ref; 
 
   s->bind();
-  canvas->render();
+  m->render();
   s->unbind();
 };

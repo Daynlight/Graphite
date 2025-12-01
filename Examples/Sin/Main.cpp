@@ -3,22 +3,29 @@
 #include <Graphite/Point.h>
 
 #include <stdio.h>
-
+#include <math.h>
 
 
 class Script : ScriptInterface{
-  Graphite::Math::Point points[20];
+  int samples = 50;
+  Graphite::Math::Point points[50];
+  float f(float x) { return (1/2.0f) * sin(x * M_PI * 2); };
+
 
   void Init(){
-    for(int i = 0; i < 20; i++)
-      points[i].setPos(i/20, i/20);
+    for(int i = 0; i < samples; i++){
+      float x = (i/(samples - 1.0f) * 2) - 1;
+      float y = f(x);
+      points[i].setPos(x, y);
+    }
     
     printf("Initialzed\n");
   };
 
   void Update(){
-    for(int i = 0; i < 20; i++)
+    for(int i = 0; i < samples; i++){
       points[i].drawPoint();
+    };
   };
 
   void Destroy(){
