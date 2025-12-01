@@ -29,6 +29,7 @@ For who it is:
   - [Run](#run)
   - [Flags](#flags)
 - [Prerequisites](#prerequisites)
+- [Versions and features](#versions-and-features)
 - [Cat](#cat)
 
 ## Installation
@@ -71,6 +72,27 @@ Graphite <flags>
    * ```CMake``` - for building.
    * ```C++17``` - for compilation.
    * ```Git``` - cloning **repo** and **submodules**
+
+
+
+
+## Versions and features
+
+<details open>
+<summary>Prototype</summary>
+
+- [x] hot script loading
+- [x] help flag
+- [x] init flag
+- [x] verbose flag
+- [x] points
+- [x] print multiple points
+- [x] installation
+- [x] interfaces installing
+- [x] simple example
+- [x] installation guide
+- [x] docs
+</details>
 
 
 
