@@ -95,6 +95,7 @@ Graphite <flags>
 - [x] docs
 - [x] single flags
 - [x] path specify
+- [x] Auto Create
 </details>
 
 

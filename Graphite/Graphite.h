@@ -68,7 +68,7 @@ void Graphite::App::initFile(const char* filename, const char* data){
 
 void Graphite::App::init() {
   if(!std::filesystem::exists(path))
-    std::filesystem::create_directory(path);
+    std::filesystem::create_directories(path);
   
   #include "Template/GraphiteTemplate.h"
   
@@ -142,6 +142,9 @@ void Graphite::App::run(int args, const char *argv[]){
       if(path[path.size() - 1] != '/')
         path += "/";
   };
+
+  if(!std::filesystem::exists(path + "Graphite.cpp"))
+    flags["init"] = 1;
 
   if(flags["init"]) init();
   if(flags["help"]) help();
