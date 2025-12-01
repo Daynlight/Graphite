@@ -53,13 +53,9 @@ For who it is:
 
 ## Usage
 ### Run
-1. Navigate to proper folder.
+1. Run it
 ```bash
-cd <path_to_project>
-```
-2. Run it
-```bash
-Graphite <flags>
+Graphite <flags> <path>
 ```
 ### Flags
   * ```-h/--help```: show program help command.
