@@ -10,16 +10,16 @@
 #include <stdio.h>
 #include <math.h>
 
+#define SAMPLES 1000
 
 class Script : ScriptInterface{
-  int samples = 50;
-  Graphite::Math::Point points[50];
+  Graphite::Math::Point points[SAMPLES];
   float f(float x) { return (1/2.0f) * sin(x * M_PI * 2); };
 
 
   void Init(){
-    for(int i = 0; i < samples; i++){
-      float x = (i/(samples - 1.0f) * 2) - 1;
+    for(int i = 0; i < SAMPLES; i++){
+      float x = (i/(SAMPLES - 1.0f) * 2) - 1;
       float y = f(x);
       points[i].setPos(x, y);
     }
@@ -28,7 +28,7 @@ class Script : ScriptInterface{
   };
 
   void Update(){
-    for(int i = 0; i < samples; i++){
+    for(int i = 0; i < SAMPLES; i++){
       points[i].drawPoint();
     };
   };
