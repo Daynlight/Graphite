@@ -15,7 +15,7 @@
 namespace Graphite{
 class ScriptLoader{
 private:
-  std::string filename = "";
+  std::string path = "";
   bool cant_find_file_print = 1;
   std::filesystem::file_time_type lastWriteTime{};
   
@@ -23,7 +23,7 @@ private:
   ScriptInterface* script = nullptr;
 
 public:
-  ScriptLoader(const std::string& filename);
+  ScriptLoader(const std::string& path);
   ~ScriptLoader();
   
   void checkLastWrite();

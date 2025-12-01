@@ -1,4 +1,4 @@
-const char* MainTemplate = 
+const char* GraphiteTemplate = 
 R"(#define  BUILDING_SCRIPT_DLL
 #include <Graphite/ScriptInterface.h>
 #include <Graphite/Point.h>

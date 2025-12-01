@@ -35,9 +35,6 @@ Graphite::Math::Point::Point(float x, float y, float r, float g, float b)
     1, 3, 2
   });
 
-  CW::Renderer::Mesh* m = (CW::Renderer::Mesh*)mesh_ref;
-  m->compile();
-
   init();
 };
 
@@ -50,12 +47,11 @@ Graphite::Math::Point::Point(float x, float y, float r, float g, float b)
 Graphite::Math::Point::~Point() {
   CW::Renderer::Uniform* u = (CW::Renderer::Uniform*)uniform_ref;
   CW::Renderer::DrawShader* s = (CW::Renderer::DrawShader*)shader_ref;
+  CW::Renderer::Mesh* m = (CW::Renderer::Mesh*)mesh_ref;
 
-  if(u) 
-    delete u;
-
-  if(s) 
-    delete s;
+  delete m;
+  delete s;
+  delete u;
 };
 
 

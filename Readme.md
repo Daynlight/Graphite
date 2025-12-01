@@ -1,5 +1,6 @@
 <div align=center>
   <h1>Graphite</h1>
+  <h2>Experimental/Prototype</h2>
 </div>
 
 
@@ -92,6 +93,8 @@ Graphite <flags>
 - [x] simple example
 - [x] installation guide
 - [x] docs
+- [x] single flags
+- [x] path specify
 </details>
 
 

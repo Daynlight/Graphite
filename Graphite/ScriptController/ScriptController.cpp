@@ -1,7 +1,7 @@
 #include "ScriptController.h"
 
-Graphite::ScriptLoader::ScriptLoader(const std::string &filename)
-  : filename(filename){};
+Graphite::ScriptLoader::ScriptLoader(const std::string &path)
+  : path(path){};
 
 
 
@@ -22,10 +22,10 @@ Graphite::ScriptLoader::~ScriptLoader(){
   
 
 void Graphite::ScriptLoader::checkLastWrite() {
-  bool file_exist = std::filesystem::exists(filename + ".cpp");
+  bool file_exist = std::filesystem::exists(path + "Graphite.cpp");
 
   if(cant_find_file_print && !file_exist){
-    printf("No file named: %s\n", (filename + ".cpp").c_str());
+    printf("No file named: %s\n", (path + "Graphite.cpp").c_str());
     cant_find_file_print = 0;
   };
   
@@ -35,7 +35,7 @@ void Graphite::ScriptLoader::checkLastWrite() {
   cant_find_file_print = 1;
   
   std::filesystem::file_time_type currentWriteTime = 
-      std::filesystem::last_write_time(filename + ".cpp");
+      std::filesystem::last_write_time(path + "Graphite.cpp");
 
 
   if(currentWriteTime != lastWriteTime){
@@ -57,13 +57,8 @@ void Graphite::ScriptLoader::checkLastWrite() {
   
 
 int Graphite::ScriptLoader::compile() {
-  std::string outDir = "dll/";
-
-  if(!std::filesystem::exists(outDir))
-    std::filesystem::create_directory(outDir);
-
-
-
+  std::string so_file = path + "Graphite.so";
+  std::string cpp_file = path + "Graphite.cpp";
 
   const char* command = "g++";
   const char* argv[] = {
@@ -71,8 +66,8 @@ int Graphite::ScriptLoader::compile() {
     "-rdynamic",
     "-shared", 
     "-fPIC",
-    "-o", (outDir + filename + ".so").c_str(), 
-    (filename + ".cpp").c_str(), 
+    "-o", so_file.c_str(), 
+    cpp_file.c_str(), 
     nullptr
   };
 
@@ -100,7 +95,7 @@ int Graphite::ScriptLoader::compile() {
 
     if (WIFEXITED(status) && WEXITSTATUS(status) == 0) { 
       if(verbose_mode)
-        printf("Compilation successful: %s\n", (outDir + filename + ".so").c_str()); 
+        printf("Compilation successful: %s\n", (path + "Graphite.so").c_str()); 
       return 0; 
     } 
     else { 
@@ -123,7 +118,7 @@ int Graphite::ScriptLoader::compile() {
   
 
 int Graphite::ScriptLoader::loadModule() {
-  script_handler = dlopen(("dll/" + filename + ".so").c_str(), RTLD_LAZY);
+  script_handler = dlopen((path + "Graphite.so").c_str(), RTLD_LAZY);
   if (!script_handler) {
       printf("Failed to load script: %s\n", dlerror());
       return -1;
