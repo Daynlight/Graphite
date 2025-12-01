@@ -31,7 +31,7 @@ For whom:
   - [Flags](#flags)
 - [Prerequisites](#prerequisites)
 - [Versions and features](#versions-and-features)
-- [License](#license)
+- [Other Docs](#other-docs)
 - [Cat](#cat)
 
 ## Installation
@@ -98,8 +98,12 @@ Graphite <flags> <path>
 
 
 
-## License
-[Apache License](LICENSE)
+## Other Docs
+- [Apache License](LICENSE)
+- [Security](SECURITY.md)
+- [Contributing](CONTRIBUTING.md)
+- [Code of Conduct](CODE_OF_CONDUCT.md)
+
 
 
 
