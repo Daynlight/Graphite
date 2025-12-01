@@ -15,7 +15,7 @@ Why it exists:
   * I love my own software
   * Learning
 
-For who it is:
+For whom:
   * For people that want faster graphical math app
   * People who hate python <3
 
@@ -31,6 +31,7 @@ For who it is:
   - [Flags](#flags)
 - [Prerequisites](#prerequisites)
 - [Versions and features](#versions-and-features)
+- [License](#license)
 - [Cat](#cat)
 
 ## Installation
@@ -93,6 +94,12 @@ Graphite <flags> <path>
 - [x] path specify
 - [x] Auto Create
 </details>
+
+
+
+
+## License
+[Apache License](LICENSE)
 
 
 

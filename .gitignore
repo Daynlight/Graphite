@@ -3,3 +3,5 @@ build/
 *.dll
 bin/
 dll/
+*.so
+*.dll
