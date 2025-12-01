@@ -7,25 +7,21 @@
 
 
 class Script : ScriptInterface{
-  Graphite::Math::Point* points;
-  Graphite::Math::Point* points2;
+  Graphite::Math::Point points[20];
 
   void Init(){
-    points = new Graphite::Math::Point(0.1f, 0.4f);
-    points2 = new Graphite::Math::Point(-0.1f, -0.4f);
-
+    for(int i = 0; i < 20; i++)
+      points[i].setPos(i/20, i/20);
+    
     printf("Initialzed\n");
   };
 
   void Update(){
-    points->drawPoint();
-    points2->drawPoint();
+    for(int i = 0; i < 20; i++)
+      points[i].drawPoint();
   };
 
   void Destroy(){
-    delete points;
-    delete points2;
-
     printf("Destroyed\n");
   };
 };

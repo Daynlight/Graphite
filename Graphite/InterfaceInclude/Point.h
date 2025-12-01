@@ -1,5 +1,7 @@
 #pragma once
 
+#include <array>
+
 namespace Graphite::Math{
 class Point{
 private:
@@ -15,6 +17,14 @@ private:
 
 public:
   Point(float x = 0.0f, float y = 0.0f, float r = 1.0f, float g = 1.0f, float b = 1.0f);
+  ~Point();
+
+  std::array<float, 2> getPos();
+  void setPos(float x, float y);
+
+  std::array<float, 3> getColors();
+  void setColors(float r, float g, float b);
+
   void drawPoint();
 };
 };

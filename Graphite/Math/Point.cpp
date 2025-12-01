@@ -1,13 +1,11 @@
 #include "Point.h"
 
-Graphite::Math::Point::Point(float x, float y, float r, float g, float b)
-  :x(x), y(y), r(r), g(g), b(b){
-
-  uniform_ref = (void*)new CW::Renderer::Uniform();
-  shader_ref = (void*)new CW::Renderer::DrawShader(vertexPointShader, fragmentPointShader);
-
+void Graphite::Math::Point::init(){
   CW::Renderer::Uniform* u = (CW::Renderer::Uniform*)uniform_ref;
   CW::Renderer::DrawShader* s = (CW::Renderer::DrawShader*)shader_ref;
+
+  u->clear();
+  s->getUniforms().clear();
 
   (*u)["color"]->set<glm::vec3>({r, g, b});
   (*u)["pos"]->set<glm::vec2>({x, y});
@@ -15,6 +13,86 @@ Graphite::Math::Point::Point(float x, float y, float r, float g, float b)
   s->getUniforms().emplace_back(u);
 };
 
+
+
+
+
+
+
+Graphite::Math::Point::Point(float x, float y, float r, float g, float b)
+    : x(x), y(y), r(r), g(g), b(b){
+
+  uniform_ref = (void*)new CW::Renderer::Uniform();
+  shader_ref = (void*)new CW::Renderer::DrawShader(vertexPointShader, fragmentPointShader);
+
+  init();
+};
+
+
+
+
+
+
+
+Graphite::Math::Point::~Point() {
+  CW::Renderer::Uniform* u = static_cast<CW::Renderer::Uniform*>(uniform_ref);
+  CW::Renderer::DrawShader* s = static_cast<CW::Renderer::DrawShader*>(shader_ref);
+
+  if(u) 
+    delete u;
+
+  if(s) 
+    delete s;
+};
+
+
+
+
+
+
+
+std::array<float, 2> Graphite::Math::Point::getPos(){
+  std::array<float, 2> pos = {x, y};
+  return pos;
+};
+
+
+
+
+
+
+
+void Graphite::Math::Point::setPos(float x, float y) {
+  this->x = x;
+  this->y = y;
+
+  init();
+};
+
+
+
+
+
+
+
+std::array<float, 3> Graphite::Math::Point::getColors(){
+  std::array<float, 3> colors = {r, g, b};
+  return colors;
+};
+
+
+
+
+
+
+
+void Graphite::Math::Point::setColors(float r, float g, float b) {
+  this->r = r;
+  this->g = g;
+  this->b = b;
+  
+  init();
+};
 
 
 
