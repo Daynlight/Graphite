@@ -66,10 +66,8 @@ void Graphite::App::initFile(const char* filename, const char* data){
 
 void Graphite::App::init() {
   #include "Template/MainTemplate.h"
-  #include "Template/ScriptInterface.h"
 
   initFile("Main.cpp", MainTemplate);
-  initFile("ScriptInterface.h", ScriptInterfaceTemplate);
 };
 
 

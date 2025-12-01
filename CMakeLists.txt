@@ -13,5 +13,11 @@ add_subdirectory(vendor/CWindow/CWindow)
 add_subdirectory(Graphite)
 
 
+set(interfaces_headers
+  Graphite/InterfaceInclude/ScriptInterface.h
+  Graphite/InterfaceInclude/Point.h
+)
+
 
 install(TARGETS Graphite RUNTIME DESTINATION bin CONFIGURATIONS Release)
+install(FILES ${interfaces_headers} DESTINATION ${CMAKE_INSTALL_PREFIX}/include/Graphite/)

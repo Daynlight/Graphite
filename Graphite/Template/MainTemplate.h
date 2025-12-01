@@ -1,6 +1,8 @@
 const char* MainTemplate = 
 R"(#define  BUILDING_SCRIPT_DLL
-#include "ScriptInterface.h"
+#include <Graphite/ScriptInterface.h>
+#include <Graphite/Point.h>
+
 
 #include <stdio.h>
 
