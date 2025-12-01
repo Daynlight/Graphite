@@ -24,6 +24,7 @@ Graphite::Math::Point::Point(float x, float y, float r, float g, float b)
 
 void Graphite::Math::Point::drawPoint(){
   CW::Renderer::DrawShader* s = (CW::Renderer::DrawShader*)shader_ref;
+
   s->bind();
   canvas->render();
   s->unbind();

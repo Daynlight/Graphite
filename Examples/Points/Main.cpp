@@ -11,15 +11,15 @@ class Script : ScriptInterface{
   Graphite::Math::Point* points2;
 
   void Init(){
-    points = new Graphite::Math::Point(0.0f, 0.5f);
-    points2 = new Graphite::Math::Point(0.5f, 0.0f);
+    points = new Graphite::Math::Point(0.1f, 0.3f);
+    points2 = new Graphite::Math::Point(0.2f, 0.4f);
 
     printf("Initialzed\n");
   };
 
   void Update(){
     points->drawPoint();
-    // points2->drawPoint();
+    points2->drawPoint();
   };
 
   void Destroy(){
