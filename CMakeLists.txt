@@ -19,8 +19,8 @@ add_subdirectory(Graphite)
 
 
 set(interfaces_headers
-  Graphite/InterfaceInclude/ScriptInterface.h
-  Graphite/InterfaceInclude/Point.h
+  Graphite/Resources/Runtime/ScriptInterface.h
+  Graphite/Resources/Runtime/Point.h
 )
 
 
