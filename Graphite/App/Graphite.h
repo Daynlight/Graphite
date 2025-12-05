@@ -7,7 +7,7 @@
 
 #include "Globals.h"
 #include "Renderer.h"
-#include "ScriptController/ScriptController.h"
+#include "Core/ScriptController/ScriptController.h"
 
 #include <unordered_map>
 #include <filesystem>
@@ -22,7 +22,7 @@ std::string path = "./";
 
 
 namespace Graphite{
-class App{
+class Graphite{
 private:
   std::unordered_map<const char*, bool> flags;
   
@@ -71,7 +71,7 @@ public:
 ////////////////////////////////////////////////////////////
 ////////////////////// Flag Execution //////////////////////
 ////////////////////////////////////////////////////////////
-void Graphite::App::executeFlags(){
+void Graphite::Graphite::executeFlags(){
   if(!std::filesystem::exists(path + "Graphite.cpp"))
     flags["init"] = 1;
 
@@ -87,7 +87,7 @@ void Graphite::App::executeFlags(){
 
 
 
-void Graphite::App::initFile(const char* filename, const char* data){
+void Graphite::Graphite::initFile(const char* filename, const char* data){
   std::ofstream out(filename, std::ios::out | std::ios::binary);
   if (!out) {
     printf("Failed to wite!\n");
@@ -104,11 +104,11 @@ void Graphite::App::initFile(const char* filename, const char* data){
 
 
 
-void Graphite::App::init() {
+void Graphite::Graphite::init() {
   if(!std::filesystem::exists(path))
     std::filesystem::create_directories(path);
   
-  #include "Template/GraphiteTemplate.h"
+  #include "../Resources/Templates/Main.h"
   
   if(!std::filesystem::exists(path + "Graphite.cpp"))
     initFile((path + "Graphite.cpp").c_str(), GraphiteTemplate);
@@ -121,7 +121,7 @@ void Graphite::App::init() {
 
 
 
-void Graphite::App::help() {
+void Graphite::Graphite::help() {
   printf(R"(Graphite
 Author:
   Daynlight.
@@ -144,7 +144,7 @@ Commands:
 
 
 
-void Graphite::App::verbose() {
+void Graphite::Graphite::verbose() {
   verbose_mode = 1;
 };
 
@@ -165,7 +165,7 @@ void Graphite::App::verbose() {
 ////////////////////////////////////////////////////////////
 ////////////////////// Flag Detection //////////////////////
 ////////////////////////////////////////////////////////////
-void Graphite::App::longFlags(const char* argv){
+void Graphite::Graphite::longFlags(const char* argv){
   if(strcmp(argv, "--init") == 0)
     flags["init"] = 1;
   if(strcmp(argv, "--help") == 0)
@@ -182,7 +182,7 @@ void Graphite::App::longFlags(const char* argv){
 
 
 
-void Graphite::App::shortFlags(const char* argv){
+void Graphite::Graphite::shortFlags(const char* argv){
   unsigned int len = strlen(argv);
   for(int j = 1; j < len; j++){
     if(argv[j] == 'i') flags["init"] = 1;
@@ -199,7 +199,7 @@ void Graphite::App::shortFlags(const char* argv){
 
 
 
-void Graphite::App::detectPath(const char* argv){
+void Graphite::Graphite::detectPath(const char* argv){
   path = std::string(argv); 
   if(path[path.size() - 1] != '/')
     path += "/";
@@ -212,7 +212,7 @@ void Graphite::App::detectPath(const char* argv){
 
 
 
-void Graphite::App::detectFlags(int args, const char *argv[]){
+void Graphite::Graphite::detectFlags(int args, const char *argv[]){
   for(int i = 1; i < args; i++){
     if(strcmp(argv[i], "--") == 0) longFlags(argv[i]);
     else if(argv[i][0] == '-') shortFlags(argv[i]);
@@ -237,7 +237,7 @@ void Graphite::App::detectFlags(int args, const char *argv[]){
 ////////////////////////////////////////////////////////////
 //////////////////////// Main Entry ////////////////////////
 ////////////////////////////////////////////////////////////
-void Graphite::App::run(int args, const char *argv[]){
+void Graphite::Graphite::run(int args, const char *argv[]){
   detectFlags(args, argv);
 
   executeFlags();
@@ -253,7 +253,7 @@ void Graphite::App::run(int args, const char *argv[]){
 
 
 
-void Graphite::App::runProgram(){
+void Graphite::Graphite::runProgram(){
   renderer = new CW::Renderer::Renderer();
   renderer->setWindowTitle("Graphite");
 
@@ -261,7 +261,7 @@ void Graphite::App::runProgram(){
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 
-  Graphite::ScriptLoader script(path);
+  ScriptLoader script(path);
 
 
   while(!renderer->getWindowData()->should_close){

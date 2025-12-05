@@ -9,9 +9,9 @@ cmake_minimum_required(VERSION 3.15)
 project(Graphite LANGUAGES CXX)
 
 set(src
-  Main.cpp
-  ScriptController/ScriptController.cpp
-  Math/Point.cpp
+  App/Graphite.cpp
+  Core/ScriptController/ScriptController.cpp
+  Core/Math/Point.cpp
 )
 
 set(headers

@@ -7,9 +7,9 @@
 
 
 int main(int args, const char* argv[]){
-  Graphite::App app;
+  Graphite::Graphite graphite;
 
-  app.run(args, argv);
+  graphite.run(args, argv);
 
   return 0;
 };
