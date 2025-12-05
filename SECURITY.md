@@ -7,7 +7,7 @@ At this time, only the **latest released version** of Graphite receives security
 | Version | Supported |
 | ------- | --------- |
 | Latest  | ✔️        |
-| Older   | ❌         |
+| Older   | ❌        |
 
 ## Reporting a Vulnerability
 
