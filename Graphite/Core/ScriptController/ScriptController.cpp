@@ -119,7 +119,7 @@ int Graphite::ScriptLoader::compile() {
     } 
     else { 
       printf("Compilation failed!\n"); 
-      return false; 
+      return -1; 
     };
   };
 
@@ -147,13 +147,19 @@ int Graphite::ScriptLoader::loadModule() {
   GetScriptFunc getScript = (GetScriptFunc)dlsym(script_handler, "GetScript");
   const char* dlsym_error = dlerror();
   
-  if (dlsym_error) {
+  if (dlsym_error || !getScript) {
     printf("Cannot load symbol 'GetScript': %s\n", dlsym_error);
     dlclose(script_handler);
     return -1;
   };
 
   script = getScript();
+
+  if(!script){
+    dlclose(script_handler);
+    script_handler = nullptr;
+    return -1;
+  }
 
   return 0;
 };

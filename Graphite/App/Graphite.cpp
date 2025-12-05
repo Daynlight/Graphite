@@ -83,12 +83,19 @@ void Graphite::Graphite::runSandbox(){
   ScriptLoader script(path);
   script.checkLastWrite();
 
+  const char* command = "Graphite";
+  const char* argv[] = {
+    "Graphite",
+    path.c_str(), 
+    nullptr
+  };
+
 
   while(1){
     pid_t pid = fork();
 
     if (pid == 0) {
-      execl("Graphite", "Graphite", path.c_str(), "-v", nullptr); 
+      execvp(command, const_cast<char* const*>(argv)); 
       printf("Failed to exec Graphite sandbox\n");
       exit(1);
     }

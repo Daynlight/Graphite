@@ -155,6 +155,7 @@ extern "C" void SCRIPT_API DeleteScript(ScriptInterface* script) {
 - [x] Script sandbox last write.
 - [x] Separate ```CWindow``` renderer via ```AppRenderer```.
 - [x] Safer script destroy.
+- [ ] ScriptController edge-cases and error handling.
 </details>
 
 <details>
