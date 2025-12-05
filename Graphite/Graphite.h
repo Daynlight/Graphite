@@ -32,6 +32,13 @@ private:
   void help();
   void verbose();
 
+  void longFlags(const char* argv);
+  void shortFlags(const char* argv);
+  void detectPath(const char* argv);
+  void detectFlags(int args, const char* argv[]);
+
+  void executeFlags();
+
 public:
   void run(int args, const char* argv[]);
   void runProgram();
@@ -46,6 +53,32 @@ public:
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+////////////////////////////////////////////////////////////
+////////////////////// Flag Execution //////////////////////
+////////////////////////////////////////////////////////////
+void Graphite::App::executeFlags(){
+  if(!std::filesystem::exists(path + "Graphite.cpp"))
+    flags["init"] = 1;
+
+  if(flags["init"]) init();
+  if(flags["help"]) help();
+  if(flags["verbose"]) verbose();
+};
 
 
 
@@ -122,39 +155,93 @@ void Graphite::App::verbose() {
 
 
 
-void Graphite::App::run(int args, const char *argv[]){
-  for(int i = 1; i < args; i++){
-    if(strcmp(argv[i], "--") == 0){
-      if(strcmp(argv[i], "--init") == 0)
-        flags["init"] = 1;
-      if(strcmp(argv[i], "--help") == 0)
-        flags["help"] = 1;
-      if(strcmp(argv[i], "--verbose") == 0 ||
-        strcmp(argv[i], "--debug") == 0)
-        flags["verbose"] = 1;
-    }
-    else if(argv[i][0] == '-'){
-      unsigned int len = strlen(argv[i]);
-      for(int j = 1; j < len; j++){
-        if(argv[i][j] == 'i') flags["init"] = 1;
-        if(argv[i][j] == 'h') flags["help"] = 1;
-        if(argv[i][j] == 'v') flags["verbose"] = 1;
-        if(argv[i][j] == 'd') flags["verbose"] = 1;
-      };
-    }
-    else 
-      path = std::string(argv[i]); 
-      if(path[path.size() - 1] != '/')
-        path += "/";
-  };
 
-  if(!std::filesystem::exists(path + "Graphite.cpp"))
+
+
+
+
+
+
+////////////////////////////////////////////////////////////
+////////////////////// Flag Detection //////////////////////
+////////////////////////////////////////////////////////////
+void Graphite::App::longFlags(const char* argv){
+  if(strcmp(argv, "--init") == 0)
     flags["init"] = 1;
+  if(strcmp(argv, "--help") == 0)
+    flags["help"] = 1;
+  if(strcmp(argv, "--verbose") == 0 ||
+    strcmp(argv, "--debug") == 0)
+    flags["verbose"] = 1;
+};
 
-  if(flags["init"]) init();
-  if(flags["help"]) help();
-  if(flags["verbose"]) verbose();
-  
+
+
+
+
+
+
+
+void Graphite::App::shortFlags(const char* argv){
+  unsigned int len = strlen(argv);
+  for(int j = 1; j < len; j++){
+    if(argv[j] == 'i') flags["init"] = 1;
+    if(argv[j] == 'h') flags["help"] = 1;
+    if(argv[j] == 'v') flags["verbose"] = 1;
+    if(argv[j] == 'd') flags["verbose"] = 1;
+  };
+};
+
+
+
+
+
+
+
+
+void Graphite::App::detectPath(const char* argv){
+  path = std::string(argv); 
+  if(path[path.size() - 1] != '/')
+    path += "/";
+};
+
+
+
+
+
+
+
+
+void Graphite::App::detectFlags(int args, const char *argv[]){
+  for(int i = 1; i < args; i++){
+    if(strcmp(argv[i], "--") == 0) longFlags(argv[i]);
+    else if(argv[i][0] == '-') shortFlags(argv[i]);
+    else detectPath(argv[i]);
+  };
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+////////////////////////////////////////////////////////////
+//////////////////////// Main Entry ////////////////////////
+////////////////////////////////////////////////////////////
+void Graphite::App::run(int args, const char *argv[]){
+  detectFlags(args, argv);
+
+  executeFlags();
+
   if(!flags["help"])
     runProgram();
 };
