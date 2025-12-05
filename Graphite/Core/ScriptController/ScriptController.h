@@ -37,6 +37,7 @@ public:
   void removeModule();
   void init();
   void update();
+  void draw();
   void destroy();
 };
 };

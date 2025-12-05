@@ -6,7 +6,7 @@
 #include "ScriptController.h"
 
 Graphite::ScriptLoader::ScriptLoader(const std::string &path)
-  : path(path){};
+  : path(path) {};
 
 
 
@@ -201,7 +201,20 @@ void Graphite::ScriptLoader::update() {
 
   
 
+void Graphite::ScriptLoader::draw(){
+  if(script)
+    script->Draw();
+};
+
+
+
+
+
+
+  
+
 void Graphite::ScriptLoader::destroy() {
   if(script)
     script->Destroy();
 };
+

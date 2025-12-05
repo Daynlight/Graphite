@@ -27,6 +27,10 @@ class Script : ScriptInterface{
     
   };
 
+  void Draw(){
+  
+  };
+
   void Destroy(){
     printf("Destroyed\n");
   };

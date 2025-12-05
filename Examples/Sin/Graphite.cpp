@@ -28,6 +28,10 @@ class Script : ScriptInterface{
   };
 
   void Update(){
+
+  };
+
+  void Draw(){
     for(int i = 0; i < SAMPLES; i++){
       points[i].drawPoint();
     };

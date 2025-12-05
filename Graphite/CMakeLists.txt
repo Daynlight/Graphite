@@ -10,6 +10,7 @@ project(Graphite LANGUAGES CXX)
 
 set(src
   App/Graphite.cpp
+  Core/AppRenderer/AppRenderer.cpp
   Core/ScriptController/ScriptController.cpp
   Core/Math/Point.cpp
 )
