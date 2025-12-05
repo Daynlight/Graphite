@@ -49,9 +49,42 @@ void Graphite::ScriptLoader::checkLastWrite() {
       if(!loadModule())
         init();
 
-      
     lastWriteTime = currentWriteTime;
   };
+};
+
+
+
+
+
+
+  
+
+bool Graphite::ScriptLoader::checkLastWriteSandbox() {
+  bool file_exist = std::filesystem::exists(path + "Graphite.cpp");
+
+  bool changed = 0;
+
+  if(cant_find_file_print && !file_exist){
+    printf("No file named: %s\n", (path + "Graphite.cpp").c_str());
+    cant_find_file_print = 0;
+  };
+  
+  if(!file_exist)
+    return 0;
+  
+  cant_find_file_print = 1;
+  
+  std::filesystem::file_time_type currentWriteTime = 
+      std::filesystem::last_write_time(path + "Graphite.cpp");
+
+
+  if(currentWriteTime != lastWriteTime){
+    changed = 1;
+    lastWriteTime = currentWriteTime;
+  };
+
+  return changed;
 };
 
 

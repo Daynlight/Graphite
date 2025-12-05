@@ -32,6 +32,7 @@ public:
   ~ScriptLoader();
   
   void checkLastWrite();
+  bool checkLastWriteSandbox();
   int compile();
   int loadModule();
   void removeModule();

@@ -100,6 +100,7 @@ Contact:
 Commands:
   -h/--help: show program help command.
   -i/--init: initialize default files.
+  -s/--sandbox: turn on sandbox mode.
   -v/-d/--verbose/--debug: turn on verbose mode.
 )");
 };
@@ -137,6 +138,8 @@ void Graphite::Graphite::longFlags(const char* argv){
     flags["init"] = 1;
   if(strcmp(argv, "--help") == 0)
     flags["help"] = 1;
+  if(strcmp(argv, "--sandbox") == 0)
+    flags["sandbox"] = 1;
   if(strcmp(argv, "--verbose") == 0 ||
     strcmp(argv, "--debug") == 0)
     flags["verbose"] = 1;
@@ -154,6 +157,7 @@ void Graphite::Graphite::shortFlags(const char* argv){
   for(int j = 1; j < len; j++){
     if(argv[j] == 'i') flags["init"] = 1;
     if(argv[j] == 'h') flags["help"] = 1;
+    if(argv[j] == 's') flags["sandbox"] = 1;
     if(argv[j] == 'v') flags["verbose"] = 1;
     if(argv[j] == 'd') flags["verbose"] = 1;
   };
@@ -209,8 +213,13 @@ void Graphite::Graphite::run(int args, const char *argv[]){
 
   executeFlags();
 
-  if(!flags["help"])
-    runProgram();
+  if(!flags["help"]){
+    if(flags["sandbox"])
+      runSandbox();
+    else
+      runProgram();
+  };
+
 };
 
 
@@ -234,4 +243,46 @@ void Graphite::Graphite::runProgram(){
       script.draw();
     });
   };
+};
+
+
+
+
+
+
+
+
+void Graphite::Graphite::runSandbox(){
+  printf("Sandbox Mode\n");
+
+  ScriptLoader script(path);
+  script.checkLastWriteSandbox();
+
+
+  while(1){
+    pid_t pid = fork();
+
+    if (pid == 0) {
+      execl("Graphite", "Graphite", path.c_str(), "-v", nullptr); 
+      printf("Failed to exec Graphite sandbox\n");
+      exit(1);
+    }
+    else if (pid > 0) {
+      int status;
+      waitpid(pid, &status, 0);
+
+      if (WIFSIGNALED(status)) {
+        printf("Sandbox crashed (signal %d)\n", WTERMSIG(status));
+      } else if (WIFEXITED(status)) {
+        printf("Sandbox exited with status %d\n", WEXITSTATUS(status));
+        exit(0);
+      }
+    }
+    else
+      perror("fork failed");
+
+    while(!script.checkLastWriteSandbox())
+      std::this_thread::sleep_for(std::chrono::milliseconds(500));
+  };
+
 };
