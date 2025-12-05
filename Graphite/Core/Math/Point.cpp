@@ -12,8 +12,8 @@ void Graphite::Math::Point::init(){
   u->clear();
   s->getUniforms().clear();
 
-  (*u)["color"]->set<glm::vec3>({r, g, b});
-  (*u)["pos"]->set<glm::vec2>({x, y});
+  (*u)["pos"]->set<glm::vec2>({pos[0], pos[1]});
+  (*u)["color"]->set<glm::vec3>({color[0], color[1], color[2]});
 
   s->getUniforms().emplace_back(u);
 };
@@ -24,8 +24,8 @@ void Graphite::Math::Point::init(){
 
 
 
-Graphite::Math::Point::Point(float x, float y, float r, float g, float b)
-    : x(x), y(y), r(r), g(g), b(b){
+Graphite::Math::Point::Point(std::array<float, 2> pos, std::array<float, 3> color)
+  : pos(pos), color(color){
 
   uniform_ref = (void*)new CW::Renderer::Uniform();
   shader_ref = (void*)new CW::Renderer::DrawShader(vertexPointShader, fragmentPointShader);
@@ -66,7 +66,6 @@ Graphite::Math::Point::~Point() {
 
 
 std::array<float, 2> Graphite::Math::Point::getPos(){
-  std::array<float, 2> pos = {x, y};
   return pos;
 };
 
@@ -76,9 +75,8 @@ std::array<float, 2> Graphite::Math::Point::getPos(){
 
 
 
-void Graphite::Math::Point::setPos(float x, float y) {
-  this->x = x;
-  this->y = y;
+void Graphite::Math::Point::setPos(std::array<float, 2> pos) {
+  this->pos = pos;
 
   init();
 };
@@ -89,9 +87,8 @@ void Graphite::Math::Point::setPos(float x, float y) {
 
 
 
-std::array<float, 3> Graphite::Math::Point::getColors(){
-  std::array<float, 3> colors = {r, g, b};
-  return colors;
+std::array<float, 3> Graphite::Math::Point::getColor(){
+  return color;
 };
 
 
@@ -100,10 +97,8 @@ std::array<float, 3> Graphite::Math::Point::getColors(){
 
 
 
-void Graphite::Math::Point::setColors(float r, float g, float b) {
-  this->r = r;
-  this->g = g;
-  this->b = b;
+void Graphite::Math::Point::setColor(std::array<float, 3> color) {
+  this->color = color;
   
   init();
 };

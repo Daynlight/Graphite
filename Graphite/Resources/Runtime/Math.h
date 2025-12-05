@@ -6,8 +6,5 @@
 
 #pragma once
 
-#define ScriptName "Graphite.cpp"
-#define ScriptOutName "Graphite.so"
 
-
-extern bool verbose_mode;
+#include <Graphite/Point.h>

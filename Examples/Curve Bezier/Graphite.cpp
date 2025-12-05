@@ -3,20 +3,26 @@
 // Licensed under the Apache License, Version 2.0.
 // See LICENSE file for details.
 
+
 #define  BUILDING_SCRIPT_DLL
 #include <Graphite/ScriptInterface.h>
-#include <Graphite/Point.h>
+#include <Graphite/Math.h>
 
 #include <stdio.h>
 #include <math.h>
 
 #define SAMPLES 200
 
+
 class Script : ScriptInterface{
-  Graphite::Math::Point control_points[3] = {{-0.7, 0.7, 0.0, 0.0}, 
-                                             {0.7, -0.5, 0.0, 0.0}, 
-                                             {0.9, 0.4, 0.0, 0.0}};
+  Graphite::Math::Point control_points[3] = {{{-0.7, 0.7}, {0.0, 0.0, 1.0}}, 
+                                             {{0.7, -0.5}, {0.0, 0.0, 1.0}}, 
+                                             {{0.9, 0.4}, {0.0, 0.0, 1.0}}};
   Graphite::Math::Point points[SAMPLES];
+
+
+
+
 
 
   // https://mst.mimuw.edu.pl/lecture.php?lecture=gk1&part=Ch6&mode=xhtml#S1
@@ -34,14 +40,16 @@ class Script : ScriptInterface{
   };
 
 
-  void Init(){
 
+
+
+  
+  void Init(){
     for(int i = 0; i < SAMPLES; i++){
       auto P = bezier((i * 1.0f) / SAMPLES);
-      points[i].setPos(P[0], P[1]);
+      points[i].setPos(P);
     };
     
-    printf("Initialzed\n");
   };
 
   void Update(){
@@ -54,10 +62,11 @@ class Script : ScriptInterface{
 
     for(int i = 0; i < SAMPLES; i++)
       points[i].drawPoint();
+
   };
 
   void Destroy(){
-    printf("Destroyed\n");
+
   };
 };
 
@@ -66,4 +75,9 @@ class Script : ScriptInterface{
 extern "C" ScriptInterface* SCRIPT_API GetScript() {
   Script* script = new Script();
   return (ScriptInterface*)script;
+};
+
+extern "C" void SCRIPT_API DeleteScript(ScriptInterface* script) {
+  Script* temp_script = (Script*)script;
+  delete temp_script;
 };

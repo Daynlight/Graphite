@@ -1,6 +1,5 @@
 <div align=center>
   <h1>Graphite</h1>
-  <h2>Experimental/Prototype</h2>
 </div>
 
 
@@ -29,6 +28,7 @@ For whom:
 - [Usage](#usage)
   - [Run](#run)
   - [Flags](#flags)
+- [**Important Note**](#important-note)
 - [Prerequisites](#prerequisites)
 - [Versions and features](#versions-and-features)
 - [Other Docs](#other-docs)
@@ -58,10 +58,82 @@ For whom:
 ```bash
 Graphite <flags> <path>
 ```
+
+2. Edit ```Graphite.cpp```
+```cpp
+// Graphite
+// Copyright 2025 Daynlight
+// Licensed under the Apache License, Version 2.0.
+// See LICENSE file for details.
+
+
+#define  BUILDING_SCRIPT_DLL
+#include <Graphite/ScriptInterface.h>
+#include <Graphite/Math.h>
+
+#include <math.h>
+
+#define SAMPLES 1000
+
+
+class Script : ScriptInterface{
+  Graphite::Math::Point points[SAMPLES];
+  float f(float x) { return (1/2.0f) * sin(x * M_PI * 2); };
+
+
+
+
+
+
+  void Init(){
+    for(int i = 0; i < SAMPLES; i++){
+      float x = (i/(SAMPLES - 1.0f) * 2) - 1;
+      float y = f(x);
+      points[i].setPos({x, y});
+    };
+  };
+
+  void Update(){
+
+  };
+
+  void Draw(){
+    for(int i = 0; i < SAMPLES; i++)
+      points[i].drawPoint();
+  };
+
+  void Destroy(){
+
+  };
+};
+
+
+
+extern "C" ScriptInterface* SCRIPT_API GetScript() {
+  Script* script = new Script();
+  return (ScriptInterface*)script;
+};
+
+extern "C" void SCRIPT_API DeleteScript(ScriptInterface* script) {
+  Script* temp_script = (Script*)script;
+  delete temp_script;
+};
+```
+
 ### Flags
   * ```-h/--help```: show program help command.
   * ```-i/--init```: initialize default files.
+  * ```-s/--sandbox```: turn on sandbox mode.
   * ```-v/-d/--verbose/--debug```: turn on verbose mode.
+
+
+
+
+## **Important Note**
+- For edition use **sandbox mode** it prevents **segment fault** and **program crashes** at **runtime edition**.
+- **Sandbox mode** runs the ```Graphite -v <path>``` on fork. If program breaks it **doesn't stop whole program** just check if **script is changed**.
+- **Always** end **all threads** in script in ```Destroy()``` function.
+- When script is stable use **normal mode** for **performance**. 
 
 
 
@@ -77,6 +149,15 @@ Graphite <flags> <path>
 ## Versions and features
 
 <details open>
+<summary>v1.0.0</summary>
+
+- [x] Sandbox mode.
+- [x] Script sandbox last write.
+- [x] Separate ```CWindow``` renderer via ```AppRenderer```.
+- [x] Safer script destroy.
+</details>
+
+<details>
 <summary>Prototype</summary>
 
 - [x] hot script loading

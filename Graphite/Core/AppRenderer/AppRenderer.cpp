@@ -3,24 +3,15 @@
 // Licensed under the Apache License, Version 2.0.
 // See LICENSE file for details.
 
+
 #include "AppRenderer.h"
+
 
 Graphite::AppRenderer::AppRenderer(){
   renderer.setWindowTitle("Graphite");
 
   glEnable(GL_BLEND);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-};
-
-
-
-
-
-
-
-
-Graphite::AppRenderer::~AppRenderer(){
-
 };
 
 

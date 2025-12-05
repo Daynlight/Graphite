@@ -3,10 +3,11 @@
 // Licensed under the Apache License, Version 2.0.
 // See LICENSE file for details.
 
+
 #pragma once
 
 #include "Globals.h"
-#include "ScriptInterface.h"
+#include "Resources/Runtime/ScriptInterface.h"
 
 #include <string>
 #include <filesystem>
@@ -31,14 +32,17 @@ public:
   ScriptLoader(const std::string& path);
   ~ScriptLoader();
   
-  void checkLastWrite();
-  bool checkLastWriteSandbox();
+  bool checkLastWrite();
+  void updateScript();
+
   int compile();
   int loadModule();
   void removeModule();
+
   void init();
   void update();
   void draw();
   void destroy();
+
 };
 };

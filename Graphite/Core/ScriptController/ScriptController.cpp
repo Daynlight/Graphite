@@ -3,7 +3,9 @@
 // Licensed under the Apache License, Version 2.0.
 // See LICENSE file for details.
 
+
 #include "ScriptController.h"
+
 
 Graphite::ScriptLoader::ScriptLoader(const std::string &path)
   : path(path) {};
@@ -26,47 +28,13 @@ Graphite::ScriptLoader::~ScriptLoader(){
 
   
 
-void Graphite::ScriptLoader::checkLastWrite() {
-  bool file_exist = std::filesystem::exists(path + "Graphite.cpp");
-
-  if(cant_find_file_print && !file_exist){
-    printf("No file named: %s\n", (path + "Graphite.cpp").c_str());
-    cant_find_file_print = 0;
-  };
-  
-  if(!file_exist)
-    return;
-  
-  cant_find_file_print = 1;
-  
-  std::filesystem::file_time_type currentWriteTime = 
-      std::filesystem::last_write_time(path + "Graphite.cpp");
-
-
-  if(currentWriteTime != lastWriteTime){
-    removeModule();
-    if(!compile())
-      if(!loadModule())
-        init();
-
-    lastWriteTime = currentWriteTime;
-  };
-};
-
-
-
-
-
-
-  
-
-bool Graphite::ScriptLoader::checkLastWriteSandbox() {
-  bool file_exist = std::filesystem::exists(path + "Graphite.cpp");
+bool Graphite::ScriptLoader::checkLastWrite() {
+  bool file_exist = std::filesystem::exists(path + ScriptName);
 
   bool changed = 0;
 
   if(cant_find_file_print && !file_exist){
-    printf("No file named: %s\n", (path + "Graphite.cpp").c_str());
+    printf("No file named: %s\n", (path + ScriptName).c_str());
     cant_find_file_print = 0;
   };
   
@@ -76,7 +44,7 @@ bool Graphite::ScriptLoader::checkLastWriteSandbox() {
   cant_find_file_print = 1;
   
   std::filesystem::file_time_type currentWriteTime = 
-      std::filesystem::last_write_time(path + "Graphite.cpp");
+      std::filesystem::last_write_time(path + ScriptName);
 
 
   if(currentWriteTime != lastWriteTime){
@@ -94,9 +62,23 @@ bool Graphite::ScriptLoader::checkLastWriteSandbox() {
 
   
 
+void Graphite::ScriptLoader::updateScript() {
+  removeModule();
+  if(!compile())
+    if(!loadModule())
+      init();
+};
+
+
+
+
+
+
+  
+
 int Graphite::ScriptLoader::compile() {
-  std::string so_file = path + "Graphite.so";
-  std::string cpp_file = path + "Graphite.cpp";
+  std::string so_file = path + ScriptOutName;
+  std::string cpp_file = path + ScriptName;
 
   const char* command = "g++";
   const char* argv[] = {
@@ -110,18 +92,16 @@ int Graphite::ScriptLoader::compile() {
   };
 
 
-
   pid_t pid = fork();
   if(pid == 0){
-
-  if(!verbose_mode) {
-    int devnull = open("/dev/null", O_WRONLY);
-    if(devnull != -1) {
-      dup2(devnull, STDOUT_FILENO);
-      dup2(devnull, STDERR_FILENO);
-      close(devnull);
-    }
-  }
+    if(!verbose_mode) {
+      int devnull = open("/dev/null", O_WRONLY);
+      if(devnull != -1) {
+        dup2(devnull, STDOUT_FILENO);
+        dup2(devnull, STDERR_FILENO);
+        close(devnull);
+      };
+    };
 
     execvp(command, const_cast<char* const*>(argv)); 
     printf("Failed to exec g++\n");
@@ -134,15 +114,14 @@ int Graphite::ScriptLoader::compile() {
     if (WIFEXITED(status) && WEXITSTATUS(status) == 0) { 
       if(verbose_mode)
         printf("Compilation successful: %s\n", (path + "Graphite.so").c_str()); 
+
       return 0; 
     } 
     else { 
       printf("Compilation failed!\n"); 
       return false; 
     };
-  }
-
-
+  };
 
   printf("Failed to fork()\n");
   return -1;
@@ -156,29 +135,25 @@ int Graphite::ScriptLoader::compile() {
   
 
 int Graphite::ScriptLoader::loadModule() {
-  script_handler = dlopen((path + "Graphite.so").c_str(), RTLD_LAZY);
+  script_handler = dlopen((path + "Graphite.so").c_str(), RTLD_NOW);
   if (!script_handler) {
-      printf("Failed to load script: %s\n", dlerror());
-      return -1;
+    printf("Failed to load script: %s\n", dlerror());
+    return -1;
   };
 
-
-
   dlerror();
-
 
   typedef ScriptInterface* (*GetScriptFunc)();
   GetScriptFunc getScript = (GetScriptFunc)dlsym(script_handler, "GetScript");
   const char* dlsym_error = dlerror();
+  
   if (dlsym_error) {
-      printf("Cannot load symbol 'GetScript': %s\n", dlsym_error);
-      dlclose(script_handler);
-      return -1;
+    printf("Cannot load symbol 'GetScript': %s\n", dlsym_error);
+    dlclose(script_handler);
+    return -1;
   };
 
-
   script = getScript();
-
 
   return 0;
 };
@@ -191,16 +166,32 @@ int Graphite::ScriptLoader::loadModule() {
   
 
 void Graphite::ScriptLoader::removeModule(){
-  if(script){
-    destroy();
-    delete script;
+  if (!script_handler) {
     script = nullptr;
+    return;
   };
 
-  if(script_handler){
-    dlclose(script_handler);
-    script_handler = nullptr;
+  if(script){
+    destroy();
+
+    dlerror();
+    using DeleteScriptFunc = void (*)(ScriptInterface*);
+    DeleteScriptFunc deleteScript = (DeleteScriptFunc)dlsym(script_handler, "DeleteScript");
+    const char* dlsym_error = dlerror();
+
+    if (dlsym_error || !deleteScript) {
+      printf("Warning: DeleteScript not found or invalid: %s\n", dlsym_error ? dlsym_error : "null");
+      script = nullptr;
+    }
+    else{
+      deleteScript(script);
+      script = nullptr;
+    };
   };
+
+  
+  dlclose(script_handler);
+  script_handler = nullptr;
 };
 
 

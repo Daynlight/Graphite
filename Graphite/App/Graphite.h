@@ -3,17 +3,19 @@
 // Licensed under the Apache License, Version 2.0.
 // See LICENSE file for details.
 
+
 #pragma once
 
 #include "Globals.h"
 #include "Core/AppRenderer/AppRenderer.h"
 #include "Core/ScriptController/ScriptController.h"
 
+#include "../Resources/Templates/Main.h"
+
 #include <unordered_map>
 #include <filesystem>
 #include <fstream>
 #include <string>
-#include <thread>
 
 
 bool verbose_mode = 0;
@@ -35,7 +37,6 @@ private:
   void shortFlags(const char* argv);
   void detectPath(const char* argv);
   void detectFlags(int args, const char* argv[]);
-
   void executeFlags();
 
 public:
@@ -45,3 +46,5 @@ public:
 
 };
 };
+
+#include "Flags.h"
