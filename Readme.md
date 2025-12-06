@@ -20,9 +20,18 @@ For whom:
 
 
 
+## Screenshots
+
+<table>
+<td><img src="docs/ss/Bezier.png"></td>
+<td><img src="docs/ss/Sin.png"></td>
+</table>
+
+
 
 ## TOC
 - [About](#about)
+- [Screenshots](#screenshots)
 - [TOC](#toc)
 - [Installation](#installation)
 - [Usage](#usage)
