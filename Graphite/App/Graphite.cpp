@@ -43,10 +43,8 @@ void Graphite::Graphite::run(int args, const char *argv[]){
     
   executeFlags();
 
-  if(!flags["help"]){
-    if(sandbox_mode) runSandbox();
-    else runProgram();
-  };
+  if(!flags["help"])
+    runProgram();
 };
 
 
@@ -70,51 +68,5 @@ void Graphite::Graphite::runProgram(){
     renderer.renderFrame([&script](){
       script.draw();
     });
-  };
-};
-
-
-
-
-
-
-
-
-void Graphite::Graphite::runSandbox(){
-  printf("Sandbox Mode\n");
-
-  ScriptLoader script(path);
-  script.checkLastWrite();
-
-  const char* command = "Graphite";
-  const char* argv[] = {
-    "Graphite",
-    path.c_str(), 
-    nullptr
-  };
-
-
-  while(1){
-    pid_t pid = fork();
-
-    if (pid == 0) {
-      execvp(command, const_cast<char* const*>(argv)); 
-      printf("Failed to exec Graphite sandbox\n");
-      exit(1);
-    }
-    else if (pid > 0) {
-      int status;
-      waitpid(pid, &status, 0);
-
-      if (WIFSIGNALED(status))
-        printf("Sandbox crashed (signal %d)\n", WTERMSIG(status));
-      else if (WIFEXITED(status))
-        exit(0);
-    }
-    else
-      perror("fork failed");
-
-    while(!script.checkLastWrite())
-      usleep(50000);
   };
 };

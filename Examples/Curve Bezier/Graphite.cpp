@@ -62,7 +62,6 @@ class Script : ScriptInterface{
 
     for(int i = 0; i < SAMPLES; i++)
       points[i].drawPoint();
-
   };
 
   void Destroy(){

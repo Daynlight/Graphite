@@ -143,8 +143,8 @@ extern "C" void SCRIPT_API DeleteScript(ScriptInterface* script) {
 ## **Important Note**
 - For edition use **sandbox mode** it prevents **segment fault** and **program crashes** at **runtime edition**.
 - **Sandbox mode** runs the ```Graphite -v <path>``` on fork. If program breaks it **doesn't stop whole program** just check if **script is changed**.
-- **Always** end **all threads** in script in ```Destroy()``` function.
-- When script is stable use **normal mode** for **performance**. 
+- **Always** end **all threads** and **allocs** in script in ```Destroy()``` function.
+- When script is stable use **normal mode** for **performance**.
 
 
 

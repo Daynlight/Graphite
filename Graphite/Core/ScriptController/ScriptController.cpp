@@ -42,10 +42,14 @@ bool Graphite::ScriptLoader::checkLastWrite() {
     return 0;
   
   cant_find_file_print = 1;
-  
-  std::filesystem::file_time_type currentWriteTime = 
-      std::filesystem::last_write_time(path + ScriptName);
+  std::filesystem::file_time_type currentWriteTime{};
 
+  try{
+    currentWriteTime = std::filesystem::last_write_time(path + ScriptName);
+  } catch(const std::filesystem::filesystem_error& e){
+    printf("Filesystem error: %s\n", e.what());
+    return false;
+  };
 
   if(currentWriteTime != lastWriteTime){
     changed = 1;
@@ -135,7 +139,13 @@ int Graphite::ScriptLoader::compile() {
   
 
 int Graphite::ScriptLoader::loadModule() {
+  removeModule();
+
+  bool file_exist = std::filesystem::exists(path + ScriptOutName);
+  if(!file_exist) return -1;
+
   script_handler = dlopen((path + "Graphite.so").c_str(), RTLD_NOW);
+
   if (!script_handler) {
     printf("Failed to load script: %s\n", dlerror());
     return -1;
@@ -149,15 +159,14 @@ int Graphite::ScriptLoader::loadModule() {
   
   if (dlsym_error || !getScript) {
     printf("Cannot load symbol 'GetScript': %s\n", dlsym_error);
-    dlclose(script_handler);
+    removeModule();
     return -1;
   };
 
   script = getScript();
 
   if(!script){
-    dlclose(script_handler);
-    script_handler = nullptr;
+    removeModule();
     return -1;
   }
 
@@ -196,8 +205,9 @@ void Graphite::ScriptLoader::removeModule(){
   };
 
   
-  dlclose(script_handler);
+  if(script_handler) dlclose(script_handler);
   script_handler = nullptr;
+  script = nullptr;
 };
 
 
@@ -208,8 +218,30 @@ void Graphite::ScriptLoader::removeModule(){
   
 
 void Graphite::ScriptLoader::init() {
-  if(script)
+  if(script){
+    
+    if(sandbox_mode){
+      pid_t pid = fork();
+      if(pid == 0){
+        script->Init();
+        _exit(0);
+      }
+      else if(pid > 0){
+        int status = 0; 
+        waitpid(pid, &status, 0);
+
+        if (!WIFEXITED(status) || !WEXITSTATUS(status) == 0) { 
+          if(verbose_mode){
+            printf("%d\n", status);
+            printf("Init failed!\n");
+          }
+          return; 
+        };
+      };
+    };
+
     script->Init();
+  };
 };
 
 
@@ -220,8 +252,30 @@ void Graphite::ScriptLoader::init() {
   
 
 void Graphite::ScriptLoader::update() {
-  if(script)
+  if(script){
+
+    if(sandbox_mode){
+      pid_t pid = fork();
+      if(pid == 0){
+        script->Update();
+        _exit(0);
+      }
+      else if(pid > 0){
+        int status = 0; 
+        waitpid(pid, &status, 0);
+
+        if (!WIFEXITED(status) || !WEXITSTATUS(status) == 0) { 
+          if(verbose_mode){
+            printf("%d\n", status);
+            printf("Update failed!\n");
+          }
+          return; 
+        };
+      };
+    };
+
     script->Update();
+  };
 };
 
 
@@ -232,8 +286,30 @@ void Graphite::ScriptLoader::update() {
   
 
 void Graphite::ScriptLoader::draw(){
-  if(script)
+  if(script){
+    
+    if(sandbox_mode){
+      pid_t pid = fork();
+      if(pid == 0){
+        script->Draw();
+        _exit(0);
+      }
+      else if(pid > 0){
+        int status = 0; 
+        waitpid(pid, &status, 0);
+
+        if (!WIFEXITED(status) || !WEXITSTATUS(status) == 0) { 
+          if(verbose_mode){
+            printf("%d\n", status);
+            printf("Draw failed!\n");
+          }
+          return; 
+        };
+      };
+    };
+
     script->Draw();
+  };
 };
 
 
@@ -244,7 +320,29 @@ void Graphite::ScriptLoader::draw(){
   
 
 void Graphite::ScriptLoader::destroy() {
-  if(script)
+  if(script){
+
+    if(sandbox_mode){
+      pid_t pid = fork();
+      if(pid == 0){
+        script->Destroy();
+        _exit(0);
+      }
+      else if(pid > 0){
+        int status = 0; 
+        waitpid(pid, &status, 0);
+
+        if (!WIFEXITED(status) || !WEXITSTATUS(status) == 0) { 
+          if(verbose_mode){
+            printf("%d\n", status);
+            printf("Destroy failed!\n");
+          }
+          return; 
+        };
+      };
+    };
+
     script->Destroy();
+  };
 };
 
