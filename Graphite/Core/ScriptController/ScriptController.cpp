@@ -230,7 +230,7 @@ void Graphite::ScriptLoader::init() {
         int status = 0; 
         waitpid(pid, &status, 0);
 
-        if (!WIFEXITED(status) || !WEXITSTATUS(status) == 0) { 
+        if (!WIFEXITED(status) || WEXITSTATUS(status) != 0) { 
           if(verbose_mode){
             printf("%d\n", status);
             printf("Init failed!\n");
@@ -264,7 +264,7 @@ void Graphite::ScriptLoader::update() {
         int status = 0; 
         waitpid(pid, &status, 0);
 
-        if (!WIFEXITED(status) || !WEXITSTATUS(status) == 0) { 
+        if (!WIFEXITED(status) || WEXITSTATUS(status) != 0) { 
           if(verbose_mode){
             printf("%d\n", status);
             printf("Update failed!\n");
@@ -298,7 +298,7 @@ void Graphite::ScriptLoader::draw(){
         int status = 0; 
         waitpid(pid, &status, 0);
 
-        if (!WIFEXITED(status) || !WEXITSTATUS(status) == 0) { 
+        if (!WIFEXITED(status) || WEXITSTATUS(status) != 0) { 
           if(verbose_mode){
             printf("%d\n", status);
             printf("Draw failed!\n");
@@ -332,7 +332,7 @@ void Graphite::ScriptLoader::destroy() {
         int status = 0; 
         waitpid(pid, &status, 0);
 
-        if (!WIFEXITED(status) || !WEXITSTATUS(status) == 0) { 
+        if (!WIFEXITED(status) || WEXITSTATUS(status) != 0) { 
           if(verbose_mode){
             printf("%d\n", status);
             printf("Destroy failed!\n");
