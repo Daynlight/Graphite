@@ -11,3 +11,4 @@
 
 
 extern bool verbose_mode;
+extern bool sandbox_mode;

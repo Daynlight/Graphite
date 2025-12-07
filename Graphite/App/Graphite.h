@@ -18,24 +18,22 @@
 #include <string>
 
 
-bool verbose_mode = 0;
-std::string path = "./";
-
-
 namespace Graphite{
 class Graphite{
 private:
-  std::unordered_map<const char*, bool> flags;
+  std::unordered_map<std::string, bool> flags;
+  std::filesystem::path path = std::filesystem::path("./");
   
 private:
-  void initFile(const char* filename, const char* data);
+  void initFile(const std::string& filename, const char* data);
   void init();
   void help();
   void verbose();
+  void sandbox();
 
-  void longFlags(const char* argv);
-  void shortFlags(const char* argv);
-  void detectPath(const char* argv);
+  void longFlags(int* i, int args, const char* argv[]);
+  void shortFlags(int* i, int args, const char* argv[]);
+  void detectPath(int* i, int args, const char* argv[]);
   void detectFlags(int args, const char* argv[]);
   void executeFlags();
 

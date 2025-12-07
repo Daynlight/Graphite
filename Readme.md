@@ -37,6 +37,7 @@ For whom:
 - [Usage](#usage)
   - [Run](#run)
   - [Flags](#flags)
+  - [Path](#path)
 - [**Important Note**](#important-note)
 - [Prerequisites](#prerequisites)
 - [Versions and features](#versions-and-features)
@@ -135,7 +136,8 @@ extern "C" void SCRIPT_API DeleteScript(ScriptInterface* script) {
   * ```-s/--sandbox```: turn on sandbox mode.
   * ```-v/-d/--verbose/--debug```: turn on verbose mode.
 
-
+### Path
+  Final path is set always as last argument. If filename specified it will create directory instead.
 
 
 ## **Important Note**

@@ -8,19 +8,21 @@
 
 #include "Renderer.h"
 
-#include <functional>
-
 
 namespace Graphite{
 class AppRenderer{
 private:
-  CW::Renderer::Renderer renderer;
+  CW::Renderer::iRenderer* renderer;
 
 public:
   AppRenderer();
+  ~AppRenderer();
 
-  void renderFrame(std::function<void()> fun);
+  template<typename F>
+  void renderFrame(F&& fun);
   bool isRunning();
 
 };
 };
+
+#include "AppRenderer.hpp"

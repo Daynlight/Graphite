@@ -12,16 +12,19 @@
 ////////////////////////////////////////////////////////////
 ////////////////////// Flag Detection //////////////////////
 ////////////////////////////////////////////////////////////
-void Graphite::Graphite::longFlags(const char* argv){
-  if(strcmp(argv, "--init") == 0)
+void Graphite::Graphite::longFlags(int* i, int args, const char* argv[]){
+  if(*i >= args) return;
+
+  if(strcmp(argv[*i], "--init") == 0)
     flags["init"] = 1;
-  if(strcmp(argv, "--help") == 0)
+  else if(strcmp(argv[*i], "--help") == 0)
     flags["help"] = 1;
-  if(strcmp(argv, "--sandbox") == 0)
+  else if(strcmp(argv[*i], "--sandbox") == 0)
     flags["sandbox"] = 1;
-  if(strcmp(argv, "--verbose") == 0 ||
-    strcmp(argv, "--debug") == 0)
+  else if(strcmp(argv[*i], "--verbose") == 0 || strcmp(argv[*i], "--debug") == 0)
     flags["verbose"] = 1;
+  else 
+    printf("flag %s didn't exist\n", argv[*i]);
 };
 
 
@@ -31,14 +34,17 @@ void Graphite::Graphite::longFlags(const char* argv){
 
 
 
-void Graphite::Graphite::shortFlags(const char* argv){
-  unsigned int len = strlen(argv);
+void Graphite::Graphite::shortFlags(int* i, int args, const char* argv[]){
+  if(*i >= args) return;
+  
+  unsigned int len = strlen(argv[*i]);
+
   for(int j = 1; j < len; j++){
-    if(argv[j] == 'i') flags["init"] = 1;
-    if(argv[j] == 'h') flags["help"] = 1;
-    if(argv[j] == 's') flags["sandbox"] = 1;
-    if(argv[j] == 'v') flags["verbose"] = 1;
-    if(argv[j] == 'd') flags["verbose"] = 1;
+    if(argv[*i][j] == 'i') flags["init"] = 1;
+    else if(argv[*i][j] == 'h') flags["help"] = 1;
+    else if(argv[*i][j] == 's') flags["sandbox"] = 1;
+    else if(argv[*i][j] == 'v' || argv[*i][j] == 'd') flags["verbose"] = 1;
+    else printf("flag -%c didn't exist\n", argv[*i][j]);
   };
 };
 
@@ -49,10 +55,15 @@ void Graphite::Graphite::shortFlags(const char* argv){
 
 
 
-void Graphite::Graphite::detectPath(const char* argv){
-  path = std::string(argv); 
-  if(path[path.size() - 1] != '/')
-    path += "/";
+void Graphite::Graphite::detectPath(int* i, int args, const char* argv[]){
+  if(*i >= args || *i < 1) return;
+  
+  std::string argv_path = argv[*i];
+  
+  if(!argv_path.empty() && argv_path.back() != '/')
+    argv_path += "/";
+
+  path = std::filesystem::path(argv_path);
 };
 
 
@@ -63,10 +74,22 @@ void Graphite::Graphite::detectPath(const char* argv){
 
 
 void Graphite::Graphite::detectFlags(int args, const char *argv[]){
-  for(int i = 1; i < args; i++){
-    if(strcmp(argv[i], "--") == 0) longFlags(argv[i]);
-    else if(argv[i][0] == '-') shortFlags(argv[i]);
-    else detectPath(argv[i]);
+  flags["init"] = 0;
+  flags["help"] = 0;
+  flags["sandbox"] = 0;
+  flags["verbose"] = 0;
+
+  int i = 1;
+  while(i < args) {
+    if(i >= args) break;
+
+    if(argv[i][0] == '-'){
+       if(argv[i][1] == '-') longFlags(&i, args, argv);
+       else shortFlags(&i, args, argv);
+    }
+    else detectPath(&i, args, argv);
+
+    i++;
   };
 };
 
@@ -81,9 +104,20 @@ void Graphite::Graphite::detectFlags(int args, const char *argv[]){
 ////////////////////// Flag Execution //////////////////////
 ////////////////////////////////////////////////////////////
 void Graphite::Graphite::executeFlags(){
+  try {
+    if (!std::filesystem::exists(path)) {
+      std::filesystem::create_directories(path);
+      printf("Directory %s created\n", path.string().c_str());
+    };
+  } catch (const std::filesystem::filesystem_error& e) {
+    printf("Failed to create directory %s: %s\n", path.string().c_str(), e.what());
+    return;
+  };
+
   if(flags["init"]) init();
   if(flags["help"]) help();
   if(flags["verbose"]) verbose();
+  if(flags["sandbox"]) sandbox();
 };
 
 
@@ -93,13 +127,39 @@ void Graphite::Graphite::executeFlags(){
 
 
 
-void Graphite::Graphite::initFile(const char* filename, const char* data){
-  std::ofstream out(filename, std::ios::out | std::ios::binary);
-  if (!out) {
-    printf("Failed to wite!\n");
+void Graphite::Graphite::initFile(const std::string& filename, const char* data){
+  if(!data){
+    printf("Can't load template\n");
     return;
   };
+
+  try {
+    if (!std::filesystem::exists(path)) {
+      std::filesystem::create_directories(path);
+      printf("Directory %s created\n", path.string().c_str());
+    }
+  } catch (const std::filesystem::filesystem_error& e) {
+    printf("Failed to create directory %s: %s\n", path.string().c_str(), e.what());
+    return;
+  }
+  
+  if(std::filesystem::exists(path / filename)){
+    printf("File %s, already exists\n", (path / filename).string().c_str());
+    return;
+  };
+
+  std::ofstream out(path / filename, std::ios::out | std::ios::binary);
+  if (!out.is_open()) {
+    printf("Can't open file %s!\n", (path / filename).string().c_str());
+    out.close();
+    return;
+  };
+
   out << data;
+
+  if (out.fail())
+    printf("Failed to write data to %s\n", (path / filename).string().c_str());
+
   out.close();
 };
 
@@ -111,11 +171,7 @@ void Graphite::Graphite::initFile(const char* filename, const char* data){
 
 
 void Graphite::Graphite::init() {
-  if(!std::filesystem::exists(path))
-    std::filesystem::create_directories(path);
-  
-  if(!std::filesystem::exists(path + ScriptName))
-    initFile((path + ScriptName).c_str(), GraphiteTemplate);
+  initFile(ScriptName, GraphiteTemplate);
 };
 
 
@@ -139,6 +195,9 @@ Commands:
   -i/--init: initialize default files.
   -s/--sandbox: turn on sandbox mode.
   -v/-d/--verbose/--debug: turn on verbose mode.
+
+Path:
+  Final path is set always as last argument. If filename specified it will create directory instead.
 )");
 };
 
@@ -151,4 +210,15 @@ Commands:
 
 void Graphite::Graphite::verbose() {
   verbose_mode = 1;
+};
+
+
+
+
+
+
+
+
+void Graphite::Graphite::sandbox() {
+  sandbox_mode = 1;
 };

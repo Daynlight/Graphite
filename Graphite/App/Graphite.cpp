@@ -6,6 +6,9 @@
 
 #include "Graphite.h"
 
+bool verbose_mode = 0;
+bool sandbox_mode = 0;
+
 
 int main(int args, const char* argv[]){
   Graphite::Graphite graphite;
@@ -35,13 +38,13 @@ int main(int args, const char* argv[]){
 void Graphite::Graphite::run(int args, const char *argv[]){
   detectFlags(args, argv);
 
-  if(!std::filesystem::exists(path + ScriptName))
-    flags["init"] = 1;
-
+  if(!std::filesystem::exists(path / ScriptName))
+    printf("File %s didn't exists\n", (path / ScriptName).string().c_str());
+    
   executeFlags();
 
   if(!flags["help"]){
-    if(flags["sandbox"]) runSandbox();
+    if(sandbox_mode) runSandbox();
     else runProgram();
   };
 };
@@ -112,6 +115,6 @@ void Graphite::Graphite::runSandbox(){
       perror("fork failed");
 
     while(!script.checkLastWrite())
-      usleep(500);
+      usleep(50000);
   };
 };
