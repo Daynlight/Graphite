@@ -16,7 +16,7 @@ Why it exists:
 
 Who it's for:
 - People who want a faster graphical math app ⚡
-- People who prefer C++ over Python ❤️
+- People who hate Python ❤️
 
 ## Screenshots
 <table>
