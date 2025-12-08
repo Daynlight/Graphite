@@ -1,7 +1,0 @@
-.vscode/
-build/
-bin/
-
-dll/
-*.so
-*.dll
