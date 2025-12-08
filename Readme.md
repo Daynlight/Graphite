@@ -1,12 +1,16 @@
-<!-- Graphite README - improved with emojis and clarity -->
-
 <div align="center">
   <h1>⚪️ Graphite ⚪️</h1>
   <p>Simple, fast 2D/3D math visual app (like GeoGebra) using C++ scripting and hot-reloadable DLLs.</p>
 </div>
 
+
+
+
 ## About
 Graphite is a lightweight 2D/3D math visualization app similar to GeoGebra or matplotlib, but built with C++ scripting and hot-reloadable DLLs for fast interactive development. It uses the author's rendering library [CWindow](https://github.com/daynlight/CWindow).
+
+
+
 
 Why it exists:
 - I dislike Python 🐍
@@ -14,9 +18,15 @@ Why it exists:
 - I enjoy building my own tools 💻
 - Learning & experimentation 🎓
 
+
+
+
 Who it's for:
 - People who want a faster graphical math app ⚡
 - People who hate Python ❤️
+
+
+
 
 ## Screenshots
 <table>
@@ -25,6 +35,9 @@ Who it's for:
     <td><img src="docs/ss/Sin.png" alt="Sin"/></td>
   </tr>
 </table>
+
+
+
 
 ## Table of Contents
 - [About](#about)
@@ -40,9 +53,10 @@ Who it's for:
 - [Other Docs](#other-docs)
 - [Cat 🐱](#cat)
 
-## Installation
-Clone recursively to get submodules, build with CMake and install:
 
+
+
+## Installation
 ```bash
 git clone --recursive https://github.com/daynlight/Graphite.git
 cd Graphite
@@ -51,8 +65,14 @@ mkdir -p build
 cd build
 cmake ..
 cmake --build . --config Release
-sudo cmake --install . --config Release
+cd ..
+
+sudo ./bin/GraphiteInstaller
+cd ..
 ```
+
+
+
 
 ## Usage
 
@@ -119,6 +139,9 @@ extern "C" void SCRIPT_API DeleteScript(ScriptInterface* script) {
 ### Path
 The final path is the last argument. If a filename is specified it will create a directory instead.
 
+
+
+
 ## Important Note ⚠️
 - Use sandbox mode for development and live-editing to avoid crashes: `Graphite -s <path>` or `Graphite -s -v <path>`.
 - Sandbox runs the script in a fork for safer testing; if the script crashes, it won't take down the host process.
@@ -126,17 +149,30 @@ The final path is the last argument. If a filename is specified it will create a
 - When your script is stable, run in normal mode for better performance.
 - Sandbox performs an initial test run in the fork before the main execution to catch runtime issues early.
 
+
+
+
 ## Prerequisites
 - CMake (for building)
 - C++17 (compiler)
 - Git (for cloning repo and submodules)
+
+
+
 
 ## Versions and features
 
 <details>
 <summary>v2.0.0</summary>
 
-- [ ] Plots (work in progress)
+- [x] Installer
+- [ ] Plots
+- [ ] Math Interface for Plots
+- [ ] Better Point Class
+- [ ] Line Class
+- [ ] Polynomial Class
+- [ ] Ui
+- [ ] Templates
 </details>
 
 <details open>
@@ -170,11 +206,15 @@ The final path is the last argument. If a filename is specified it will create a
 - [x] Auto create path
 </details>
 
+
+
 ## Other Docs
 - [Apache License](LICENSE)
 - [Security](SECURITY.md)
 - [Contributing](CONTRIBUTING.md)
 - [Code of Conduct](CODE_OF_CONDUCT.md)
+
+
 
 ## Cat 🐱
 <img src="https://i.pinimg.com/736x/52/7b/e0/527be0e257856244a3db109c0713c61c.jpg" alt="cat">
