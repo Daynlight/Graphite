@@ -145,6 +145,7 @@ extern "C" void SCRIPT_API DeleteScript(ScriptInterface* script) {
 - **Sandbox mode** runs the ```Graphite -v <path>``` on fork. If program breaks it **doesn't stop whole program** just check if **script is changed**.
 - **Always** end **all threads** and **allocs** in script in ```Destroy()``` function.
 - When script is stable use **normal mode** for **performance**.
+- Sandbox **runs** first command on **fork** for **testing** than for program **double execution but safer**.
 
 
 
@@ -159,14 +160,28 @@ extern "C" void SCRIPT_API DeleteScript(ScriptInterface* script) {
 
 ## Versions and features
 
+
+<details>
+<summary>v2.0.0</summary>
+
+- [ ] Plots
+</details>
+
 <details open>
+<summary>v1.0.1</summary>
+
+- [x] ScriptController edge-cases and error handling.
+- [x] Sandbox mode now tests before execution.
+- [x] Edge cases for ```Graphite```, ```Flags```, ```AppRenderer```, ```ScriptLoader``` 
+</details>
+
+<details>
 <summary>v1.0.0</summary>
 
 - [x] Sandbox mode.
 - [x] Script sandbox last write.
 - [x] Separate ```CWindow``` renderer via ```AppRenderer```.
 - [x] Safer script destroy.
-- [ ] ScriptController edge-cases and error handling.
 </details>
 
 <details>

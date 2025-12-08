@@ -219,11 +219,12 @@ void Graphite::ScriptLoader::removeModule(){
 
 void Graphite::ScriptLoader::init() {
   if(script){
-    
+
     if(sandbox_mode){
       pid_t pid = fork();
       if(pid == 0){
         script->Init();
+
         _exit(0);
       }
       else if(pid > 0){
