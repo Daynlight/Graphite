@@ -44,6 +44,8 @@ For whom:
 - [Other Docs](#other-docs)
 - [Cat](#cat)
 
+
+
 ## Installation
 ```bash
   git clone --recursive https://github.com/daynlight/Graphite.git
@@ -55,7 +57,7 @@ For whom:
   cmake --build . --config Release
   cd ..
 
-  sudo cmake --install build/ --config Release
+  ./bin/GraphiteInstaller
   cd ..
 ```
 
@@ -164,7 +166,14 @@ extern "C" void SCRIPT_API DeleteScript(ScriptInterface* script) {
 <details>
 <summary>v2.0.0</summary>
 
+- [x] Installer
 - [ ] Plots
+- [ ] Math Interface for Plots
+- [ ] Better Point Class
+- [ ] Line Class
+- [ ] Polynomial Class
+- [ ] Ui
+- [ ] Templates
 </details>
 
 <details open>
