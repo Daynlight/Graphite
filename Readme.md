@@ -67,8 +67,10 @@ cmake ..
 cmake --build . --config Release
 cd ..
 
-sudo ./bin/GraphiteInstaller
-cd ..
+cd bin/
+sudo ./GraphiteInstaller
+
+cd ../..
 ```
 
 
