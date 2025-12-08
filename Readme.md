@@ -57,7 +57,7 @@ For whom:
   cmake --build . --config Release
   cd ..
 
-  ./bin/GraphiteInstaller
+  sudo ./bin/GraphiteInstaller
   cd ..
 ```
 
