@@ -16,7 +16,6 @@
 #include <dlfcn.h>
 #include <fcntl.h>
 #include <sys/wait.h>
-#include <sys/mman.h>
 
 
 namespace Graphite{
