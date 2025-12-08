@@ -13,9 +13,10 @@
 #include <filesystem>
 
 #include <unistd.h>
-#include <sys/wait.h>
 #include <dlfcn.h>
 #include <fcntl.h>
+#include <sys/wait.h>
+#include <sys/mman.h>
 
 
 namespace Graphite{
