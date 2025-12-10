@@ -4,8 +4,7 @@
 // See LICENSE file for details.
 
 
-#include "Renderer.h"
-#include "Core/Math/Math.h"
+#include "Math.h"
 
 #include <string>
 #include <unordered_map>
@@ -13,12 +12,12 @@
 
 namespace Graphite::Math{
 class Plot2D{
+
 public:
   std::unordered_map<std::string, const iMath2D*> cell; 
 
 public:
   Plot2D();
-  ~Plot2D();
 
   void draw();
 

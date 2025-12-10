@@ -4,9 +4,6 @@
 // See LICENSE file for details.
 
 
-#pragma once
-#include <Graphite/Point.h>
-
 #include <array>
 
 

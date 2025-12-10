@@ -8,12 +8,13 @@
 #include "Renderer.h"
 
 #include "PointShader.h"
+#include "Math.h"
 
 #include <array>
 
 
 namespace Graphite::Math{
-class Point{
+class Point : iMath2D{
 private:
   std::array<float, 2> pos = {0.0f, 0.0f};
   
@@ -36,6 +37,8 @@ public:
   void setColor(std::array<float, 3> color);
 
   void drawPoint();
+
+  std::array<float, 2> get(float t = 0.0f) const;
 
 };
 };

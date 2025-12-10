@@ -26,6 +26,9 @@ add_custom_command(TARGET GraphiteInstaller PRE_BUILD
         ${CMAKE_SOURCE_DIR}/Graphite/Resources/Runtime/ScriptInterface.h
         ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/ScriptInterface.h
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        ${CMAKE_SOURCE_DIR}/Graphite/Resources/Runtime/Plot2D.h
+        ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Plot2D.h
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
         ${CMAKE_SOURCE_DIR}/Graphite/Resources/Runtime/Math.h
         ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Math.h
     COMMAND ${CMAKE_COMMAND} -E copy_if_different

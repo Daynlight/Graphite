@@ -117,3 +117,13 @@ void Graphite::Math::Point::drawPoint(){
   m->render();
   s->unbind();
 };
+
+
+
+
+
+
+
+std::array<float, 2> Graphite::Math::Point::get(float t) const{
+  return pos;
+};
