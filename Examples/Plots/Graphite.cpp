@@ -17,7 +17,7 @@ class Script : ScriptInterface{
 
 
   void Init(){
-    plot["1"] = new Graphite::Math::Point({0.2f, 0.1f});
+    plot["1"] = Graphite::Math::Point({0.2f, 0.1f});
   };
 
   void Update(){

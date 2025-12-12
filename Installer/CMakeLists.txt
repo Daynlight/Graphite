@@ -29,7 +29,6 @@ add_executable(GraphiteInstaller ${src})
 
 set(copy_files
   ${CMAKE_SOURCE_DIR}/Graphite/Resources/ScriptInterface.h
-  ${CMAKE_SOURCE_DIR}/Graphite/Resources/Math/iMath.h
   ${CMAKE_SOURCE_DIR}/Graphite/Resources/Math/Math.h
   ${CMAKE_SOURCE_DIR}/Graphite/Resources/Math/Plots/Plot2D/Plot2D.h
   ${CMAKE_SOURCE_DIR}/Graphite/Resources/Math/Point.h

@@ -3,13 +3,19 @@
 // Licensed under the Apache License, Version 2.0.
 // See LICENSE file for details.
 
+
 #pragma once
 #ifndef BUILDING_SCRIPT_DLL
-  #include "Renderer.h"
-  #include "Resources/Math/iMath.h"
-  #else
-  #include "Graphite/Math.h"
-  #include "Graphite/iMath.h"
+  #include "Mesh/Mesh.h"
+  #include "Shader/DrawShader.h"
+  #include "Uniform/Uniform.h"
+  #include "Resources/Math/Point.h"
+  #include "Resources/Math/PointShader.h"
+
+  CW::Renderer::Mesh* viewport = nullptr;
+  CW::Renderer::DrawShader* shader;
+#else
+  #include "Graphite/Point.h"
 #endif
 
 
@@ -19,15 +25,17 @@
 
 namespace Graphite::Math{
 class Plot2D{
+public:
+  std::unordered_map<std::string, Graphite::Math::Point> point_cell;
+
 private:
-  std::unordered_map<std::string, iMath2D*> cell; 
+  void drawPoint(Graphite::Math::Point point);
 
 public:
   Plot2D();
   ~Plot2D();
 
   void draw();
-  
-  iMath2D*& operator[](const std::string& name);
+
 };
 };

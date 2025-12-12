@@ -42,11 +42,10 @@ void moveFile(const std::filesystem::path src, const std::filesystem::path dest)
 
 const std::string path = "/usr/local/include/Graphite/";
 const std::vector<std::string> resources = {
+  "ScriptInterface.h",
   "Plot2D.h",
   "Math.h",
-  "iMath.h",
   "Point.h",
-  "ScriptInterface.h"
 };
 
 int main(){

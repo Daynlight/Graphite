@@ -6,7 +6,6 @@
 
 #pragma once
 #ifdef BUILDING_SCRIPT_DLL
-  #include "Graphite/iMath.h"
   #include "Graphite/Math.h"
 #endif
 

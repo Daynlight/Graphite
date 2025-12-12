@@ -7,8 +7,40 @@
 #include "Plot2D.h"
 
 
-Graphite::Math::Plot2D::Plot2D(){
+void Graphite::Math::Plot2D::drawPoint(Graphite::Math::Point point){
+  std::array<float, 2> pos = point.getPos();
+  std::array<float, 3> color = point.getColor();
+  
+  CW::Renderer::Uniform uniform;
+  shader->getUniforms().emplace_back(&uniform);
+  uniform["pos"]->set<glm::vec2>({pos[0], pos[1]});
+  uniform["color"]->set<glm::vec3>({color[0], color[1], color[2]});
 
+  shader->bind();
+  viewport->render();
+  shader->unbind();
+  
+  shader->getUniforms().clear();
+};
+
+
+
+
+
+
+Graphite::Math::Plot2D::Plot2D(){
+  viewport = new CW::Renderer::Mesh(
+  {
+    -1.0f,  1.0f, 0.0f,
+    -1.0f, -1.0f, 0.0f,
+    1.0f,  1.0f, 0.0f,
+    1.0f, -1.0f, 0.0f,
+  }, 
+  {
+    0, 1, 2,
+    1, 3, 2
+  });
+  shader = new CW::Renderer::DrawShader(vertexPointShader, fragmentPointShader);
 };
 
 
@@ -17,8 +49,9 @@ Graphite::Math::Plot2D::Plot2D(){
 
 
 Graphite::Math::Plot2D::~Plot2D() {
-  for(std::pair<std::string, iMath2D*> el : cell)
-    delete el.second;
+  point_cell.clear();
+  delete shader;
+  delete viewport;
 };
 
 
@@ -27,15 +60,7 @@ Graphite::Math::Plot2D::~Plot2D() {
 
 
 void Graphite::Math::Plot2D::draw(){
-  for(const std::pair<std::string, iMath2D*>& el : cell)
-    printf("[%f, %f]\n", el.second->get()[0], el.second->get()[1]);
+  for(std::pair<std::string, Graphite::Math::Point> el : point_cell)
+    drawPoint(el.second);
 };
 
-
-
-
-
-
-Graphite::iMath2D*& Graphite::Math::Plot2D::operator[](const std::string& name){
-  return cell[name];
-};

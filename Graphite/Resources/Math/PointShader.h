@@ -6,7 +6,7 @@
 #pragma once
 #include <string>
 
-std::string vertexPointShader = R"(
+inline std::string vertexPointShader = R"(
 #version 430 core
 
 layout(location = 0) in vec2 aPos;
@@ -26,7 +26,7 @@ void main() {
 
 
 
-std::string fragmentPointShader = R"(
+inline std::string fragmentPointShader = R"(
 #version 430 core
 
 in vec3 vColor;

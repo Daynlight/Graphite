@@ -5,8 +5,8 @@
 
 
 #pragma once
-
 #include "Renderer.h"
+#include "Resources/Math/PointShader.h"
 
 
 namespace Graphite{
