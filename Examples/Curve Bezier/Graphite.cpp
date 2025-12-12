@@ -6,6 +6,7 @@
 
 #define  BUILDING_SCRIPT_DLL
 #include <Graphite/ScriptInterface.h>
+#include <Graphite/Plot2D.h>
 #include <Graphite/Math.h>
 
 #include <stdio.h>

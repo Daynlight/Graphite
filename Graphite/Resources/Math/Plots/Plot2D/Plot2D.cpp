@@ -17,7 +17,7 @@ Graphite::Math::Plot2D::Plot2D(){
 
 
 Graphite::Math::Plot2D::~Plot2D() {
-  for(std::pair<std::string, const iMath2D*> el : cell)
+  for(std::pair<std::string, iMath2D*> el : cell)
     delete el.second;
 };
 
@@ -27,6 +27,15 @@ Graphite::Math::Plot2D::~Plot2D() {
 
 
 void Graphite::Math::Plot2D::draw(){
-  for(std::pair<std::string, const iMath2D*> el : cell)
+  for(const std::pair<std::string, iMath2D*>& el : cell)
     printf("[%f, %f]\n", el.second->get()[0], el.second->get()[1]);
+};
+
+
+
+
+
+
+Graphite::iMath2D*& Graphite::Math::Plot2D::operator[](const std::string& name){
+  return cell[name];
 };

@@ -5,6 +5,15 @@
 
 
 #pragma once
+#ifdef BUILDING_SCRIPT_DLL
+  #include "Graphite/iMath.h"
+  #include "Graphite/Math.h"
+#endif
+
+
+
+
+
 
 
 #if defined(_WIN32) || defined(_WIN64)

@@ -4,8 +4,8 @@
 // See LICENSE file for details.
 
 
+#pragma once
 #include <array>
-
 
 namespace Graphite{
 class iMath2D{

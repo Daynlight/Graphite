@@ -17,21 +17,40 @@ set(src
   main.cpp
 )
 
-
 add_executable(GraphiteInstaller ${src})
 
 
-add_custom_command(TARGET GraphiteInstaller PRE_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different
-        ${CMAKE_SOURCE_DIR}/Graphite/Resources/Runtime/ScriptInterface.h
-        ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/ScriptInterface.h
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different
-        ${CMAKE_SOURCE_DIR}/Graphite/Resources/Runtime/Plot2D.h
-        ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Plot2D.h
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different
-        ${CMAKE_SOURCE_DIR}/Graphite/Resources/Runtime/Math.h
-        ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Math.h
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different
-        ${CMAKE_SOURCE_DIR}/Graphite/Resources/Runtime/Point.h
-        ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Point.h
+
+
+
+
+
+
+
+set(copy_files
+  ${CMAKE_SOURCE_DIR}/Graphite/Resources/ScriptInterface.h
+  ${CMAKE_SOURCE_DIR}/Graphite/Resources/Math/iMath.h
+  ${CMAKE_SOURCE_DIR}/Graphite/Resources/Math/Math.h
+  ${CMAKE_SOURCE_DIR}/Graphite/Resources/Math/Plots/Plot2D/Plot2D.h
+  ${CMAKE_SOURCE_DIR}/Graphite/Resources/Math/Point.h
 )
+
+
+set(copied_headers)
+foreach(file IN LISTS copy_files)
+    get_filename_component(fname "${file}" NAME)
+    add_custom_command(
+        OUTPUT ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${fname}
+        COMMAND ${CMAKE_COMMAND} -E copy 
+            ${file} 
+            ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${fname}
+        DEPENDS "${file}"
+        COMMENT "Copying ${fname}"
+    )
+    list(APPEND copied_headers ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${fname})
+endforeach()
+
+
+
+add_custom_target(copy_headers ALL DEPENDS ${copied_headers})
+add_dependencies(GraphiteInstaller copy_headers)

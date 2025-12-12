@@ -3,7 +3,9 @@
 // Licensed under the Apache License, Version 2.0.
 // See LICENSE file for details.
 
+
 #include "Point.h"
+
 
 void Graphite::Math::Point::init(){
   CW::Renderer::Uniform* u = (CW::Renderer::Uniform*)uniform_ref;
@@ -126,4 +128,14 @@ void Graphite::Math::Point::drawPoint(){
 
 std::array<float, 2> Graphite::Math::Point::get(float t) const{
   return pos;
+};
+
+
+
+
+
+
+
+Graphite::Math::Point::operator iMath2D*() {
+  return this;
 };

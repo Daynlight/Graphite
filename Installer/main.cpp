@@ -44,6 +44,7 @@ const std::string path = "/usr/local/include/Graphite/";
 const std::vector<std::string> resources = {
   "Plot2D.h",
   "Math.h",
+  "iMath.h",
   "Point.h",
   "ScriptInterface.h"
 };

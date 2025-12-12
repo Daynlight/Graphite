@@ -7,7 +7,7 @@
 #pragma once
 
 #include "Globals.h"
-#include "Resources/Runtime/ScriptInterface.h"
+#include "Resources/ScriptInterface.h"
 
 #include <string>
 #include <filesystem>
