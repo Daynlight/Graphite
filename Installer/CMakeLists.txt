@@ -31,22 +31,22 @@ set(copy_files
   ${CMAKE_SOURCE_DIR}/Graphite/Resources/ScriptInterface.h
   ${CMAKE_SOURCE_DIR}/Graphite/Resources/Math/Math.h
   ${CMAKE_SOURCE_DIR}/Graphite/Resources/Math/Plots/Plot2D/Plot2D.h
-  ${CMAKE_SOURCE_DIR}/Graphite/Resources/Math/Point.h
+  ${CMAKE_SOURCE_DIR}/Graphite/Resources/Math/Point/Point.h
 )
 
 
 set(copied_headers)
 foreach(file IN LISTS copy_files)
-    get_filename_component(fname "${file}" NAME)
-    add_custom_command(
-        OUTPUT ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${fname}
-        COMMAND ${CMAKE_COMMAND} -E copy 
-            ${file} 
-            ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${fname}
-        DEPENDS "${file}"
-        COMMENT "Copying ${fname}"
-    )
-    list(APPEND copied_headers ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${fname})
+  get_filename_component(fname "${file}" NAME)
+  add_custom_command(
+    OUTPUT ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${fname}
+    COMMAND ${CMAKE_COMMAND} -E copy 
+        ${file} 
+        ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${fname}
+    DEPENDS "${file}"
+    COMMENT "Copying ${fname}"
+  )
+  list(APPEND copied_headers ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${fname})
 endforeach()
 
 

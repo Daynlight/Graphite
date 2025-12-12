@@ -9,8 +9,8 @@
   #include "Mesh/Mesh.h"
   #include "Shader/DrawShader.h"
   #include "Uniform/Uniform.h"
-  #include "Resources/Math/Point.h"
-  #include "Resources/Math/PointShader.h"
+  #include "Resources/Math/Point/Point.h"
+  #include "Resources/Math/Point/PointShader.h"
 
   CW::Renderer::Mesh* viewport = nullptr;
   CW::Renderer::DrawShader* shader;
