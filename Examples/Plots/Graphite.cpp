@@ -6,8 +6,6 @@
 
 #define  BUILDING_SCRIPT_DLL
 #include <Graphite/ScriptInterface.h>
-#include <Graphite/Plot2D.h>
-#include <Graphite/Math.h>
 
 #include <stdio.h>
 #include <math.h>
@@ -19,16 +17,15 @@ class Script : ScriptInterface{
 
 
   void Init(){
-    *plot["1"] = (Graphite::iMath2D*)(new Graphite::Math::Point({0.2f, 0.1f}));
+    plot["1"] = new Graphite::Math::Point({0.2f, 0.1f});
   };
 
   void Update(){
-
+    
   };
 
   void Draw(){
     plot.draw();
-    ((Graphite::Math::Point*)(plot["1"]))->drawPoint();
   };
 
   void Destroy(){
