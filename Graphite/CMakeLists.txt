@@ -12,7 +12,8 @@ project(Graphite LANGUAGES CXX)
 set(src
   App/Graphite.cpp
   Core/ScriptController/ScriptController.cpp
-  Core/Math/Point.cpp
+  Resources/Math/Point/Point.cpp
+  Resources/Math/Plots/Plot2D/Plot2D.cpp
 )
 
 set(headers

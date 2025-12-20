@@ -14,20 +14,6 @@ set(CMAKE_CXX_STANDARD 17)
 
 
 add_subdirectory(vendor/CWindow/CWindow)
+
 add_subdirectory(Graphite)
-
-
-# set(interfaces_headers
-#   Graphite/Resources/Runtime/ScriptInterface.h
-#   Graphite/Resources/Runtime/Math.h
-#   Graphite/Resources/Runtime/Point.h
-# )
-
-
-# install(TARGETS Graphite RUNTIME DESTINATION bin CONFIGURATIONS Release)
-# install(FILES ${interfaces_headers} DESTINATION ${CMAKE_INSTALL_PREFIX}/include/Graphite/)
-
-
-
-
-add_subdirectory(Graphite/Installer)
+add_subdirectory(Installer)
