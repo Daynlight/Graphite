@@ -6,10 +6,7 @@
 
 #define  BUILDING_SCRIPT_DLL
 #include <Graphite/ScriptInterface.h>
-#include <Graphite/Plot2D.h>
-#include <Graphite/Math.h>
 
-#include <stdio.h>
 #include <math.h>
 
 #define SAMPLES 200
@@ -19,8 +16,8 @@ class Script : ScriptInterface{
   Graphite::Math::Point control_points[3] = {{{-0.7, 0.7}, {0.0, 0.0, 1.0}}, 
                                              {{0.7, -0.5}, {0.0, 0.0, 1.0}}, 
                                              {{0.9, 0.4}, {0.0, 0.0, 1.0}}};
-  Graphite::Math::Point points[SAMPLES];
 
+  Graphite::Math::Plot2D plot;
 
 
 
@@ -46,9 +43,13 @@ class Script : ScriptInterface{
 
   
   void Init(){
+    plot.point_cell["cp_1"] = control_points[0];
+    plot.point_cell["cp_2"] = control_points[1];
+    plot.point_cell["cp_3"] = control_points[2]; 
+
     for(int i = 0; i < SAMPLES; i++){
       auto P = bezier((i * 1.0f) / SAMPLES);
-      points[i].setPos(P);
+      plot.point_cell[std::to_string(i)] = Graphite::Math::Point(P);
     };
     
   };
@@ -58,11 +59,8 @@ class Script : ScriptInterface{
   };
 
   void Draw(){
-    for(int i = 0; i < 3; i++)
-      control_points[i].drawPoint();
+    plot.draw();
 
-    for(int i = 0; i < SAMPLES; i++)
-      points[i].drawPoint();
   };
 
   void Destroy(){
