@@ -11,9 +11,6 @@
   #include "Uniform/Uniform.h"
   #include "Resources/Math/Point/Point.h"
   #include "Resources/Math/Point/PointShader.h"
-
-  CW::Renderer::Mesh* viewport = nullptr;
-  CW::Renderer::DrawShader* shader;
 #else
   #include "Graphite/Point.h"
 #endif
