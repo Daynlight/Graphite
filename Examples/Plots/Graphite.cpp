@@ -7,7 +7,6 @@
 #define  BUILDING_SCRIPT_DLL
 #include <Graphite/ScriptInterface.h>
 
-#include <stdio.h>
 #include <math.h>
 
 
@@ -17,7 +16,9 @@ class Script : ScriptInterface{
 
 
   void Init(){
-    plot["1"] = Graphite::Math::Point({0.2f, 0.1f});
+    plot.point_cell["1"] = Graphite::Math::Point({0.2f, 0.1f});
+    plot.point_cell["2"] = Graphite::Math::Point({0.2f, -0.1f});
+    plot.point_cell["3"] = Graphite::Math::Point({-0.2f, 0.1f});
   };
 
   void Update(){

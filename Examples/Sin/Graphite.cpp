@@ -6,8 +6,6 @@
 
 #define  BUILDING_SCRIPT_DLL
 #include <Graphite/ScriptInterface.h>
-#include <Graphite/Plot2D.h>
-#include <Graphite/Math.h>
 
 #include <math.h>
 
@@ -15,7 +13,7 @@
 
 
 class Script : ScriptInterface{
-  Graphite::Math::Point points[SAMPLES];
+  Graphite::Math::Plot2D plot;
   float f(float x) { return (1/2.0f) * sin(x * M_PI * 2); };
 
 
@@ -27,7 +25,7 @@ class Script : ScriptInterface{
     for(int i = 0; i < SAMPLES; i++){
       float x = (i/(SAMPLES - 1.0f) * 2) - 1;
       float y = f(x);
-      points[i].setPos({x, y});
+      plot.point_cell[std::to_string(i)] = Graphite::Math::Point({x, y});
     };
   };
 
@@ -36,8 +34,8 @@ class Script : ScriptInterface{
   };
 
   void Draw(){
-    for(int i = 0; i < SAMPLES; i++)
-      points[i].drawPoint();
+    plot.draw();
+
   };
 
   void Destroy(){
