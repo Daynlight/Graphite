@@ -31,6 +31,9 @@ void Graphite::Math::Plot2D::drawPoint(Graphite::Math::Point point){
   uniform["pos"]->set<glm::vec2>({pos[0], pos[1]});
   uniform["color"]->set<glm::vec3>({color[0], color[1], color[2]});
 
+  uniform["camera_pos"]->set<glm::vec2>({this->pos[0], this->pos[1]});
+  uniform["camera_zoom"]->set<float>(zoom);
+
   shader.bind();
   viewport.render();
   shader.unbind();
@@ -65,3 +68,13 @@ void Graphite::Math::Plot2D::draw(){
     drawPoint(el.second);
 };
 
+
+
+
+
+
+void Graphite::Math::Plot2D::plotEvents() {
+  pos[0] += d_pos[0];
+  pos[1] += d_pos[1];
+  zoom = d_zoom;
+};

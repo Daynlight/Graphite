@@ -5,10 +5,16 @@
 
 
 #pragma once
+#include <array>
 
 #define ScriptName "Graphite.cpp"
 #define ScriptOutName "Graphite.so"
 
+#define MoveSpeed 0.05f;
+#define ZoomSpeed 0.001f;
 
 extern bool verbose_mode;
 extern bool sandbox_mode;
+
+extern std::array<float, 2> d_pos;
+extern float d_zoom;

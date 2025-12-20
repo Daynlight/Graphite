@@ -22,7 +22,7 @@ class Script : ScriptInterface{
   };
 
   void Update(){
-    
+    plot.plotEvents();
   };
 
   void Draw(){

@@ -50,6 +50,35 @@ bool Graphite::AppRenderer::isRunning(){
 
 
 
+std::array<float, 2> Graphite::AppRenderer::getDPos(){
+  std::array<float, 2> d_pos = {};
+
+  if(renderer->getInputData()->is_key_down("A")) d_pos[0] += MoveSpeed;
+  if(renderer->getInputData()->is_key_down("D")) d_pos[0] -= MoveSpeed;
+  if(renderer->getInputData()->is_key_down("S")) d_pos[1] += MoveSpeed;
+  if(renderer->getInputData()->is_key_down("W")) d_pos[1] -= MoveSpeed;
+  
+  return d_pos;
+};
+
+
+
+
+
+
+
+
+float Graphite::AppRenderer::getDZoom(){
+  return renderer->getInputData()->mouse_scroll_y * ZoomSpeed;
+};
+
+
+
+
+
+
+
+
 template<typename F>
 void Graphite::AppRenderer::renderFrame(F&& fun){
   renderer->beginFrame();

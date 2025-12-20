@@ -9,7 +9,7 @@
 
 #include <math.h>
 
-#define SAMPLES 1000
+#define SAMPLES 100
 
 
 class Script : ScriptInterface{
@@ -30,7 +30,7 @@ class Script : ScriptInterface{
   };
 
   void Update(){
-
+    plot.plotEvents();
   };
 
   void Draw(){

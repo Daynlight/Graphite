@@ -11,6 +11,7 @@
   #include "Uniform/Uniform.h"
   #include "Resources/Math/Point/Point.h"
   #include "Resources/Math/Point/PointShader.h"
+  #include "Globals.h"
 #else
   #include "Graphite/Point.h"
 #endif
@@ -27,12 +28,15 @@ public:
 
 private:
   void drawPoint(Graphite::Math::Point point);
+  std::array<float, 2> pos = {0.0f, 0.0f};
+  float zoom = 1.0f;
 
 public:
   Plot2D();
   ~Plot2D();
 
   void draw();
-
+  
+  void plotEvents();
 };
 };
