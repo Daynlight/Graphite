@@ -76,5 +76,5 @@ void Graphite::Math::Plot2D::draw(){
 void Graphite::Math::Plot2D::plotEvents() {
   pos[0] += d_pos[0];
   pos[1] += d_pos[1];
-  zoom = d_zoom;
+  zoom += d_zoom;
 };

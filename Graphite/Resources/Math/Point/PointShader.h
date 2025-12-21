@@ -22,11 +22,11 @@ uniform float camera_zoom;
 
 void main() {
     float scale = 0.01f;
-    vec4 point_pos = vec4(aPos * scale + pos, 0.0, 1.0);
-    vec4 world_pos = vec4(camera_pos[0], camera_pos[1], 0, 0);
-
     
-    gl_Position = point_pos + world_pos;
+    vec2 world_pos = aPos * scale + pos;
+    vec2 view_pos = (world_pos - camera_pos) * camera_zoom;
+
+    gl_Position = vec4(view_pos, 0.0, 1.0);
     vColor = color;
 }
 

@@ -11,7 +11,7 @@
 #define ScriptOutName "Graphite.so"
 
 #define MoveSpeed 0.05f;
-#define ZoomSpeed 0.001f;
+#define ZoomSpeed 0.01f;
 
 extern bool verbose_mode;
 extern bool sandbox_mode;
