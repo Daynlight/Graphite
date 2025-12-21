@@ -19,12 +19,16 @@ uniform vec2 pos;
 uniform vec3 color;
 uniform vec2 camera_pos;
 uniform float camera_zoom;
+uniform vec2 window_size;
 
 void main() {
-    float scale = 0.01f;
+    float window_ratio = window_size.y / window_size.x;
+    float scale = 1.0f;
     
     vec2 world_pos = aPos * scale + pos;
     vec2 view_pos = (world_pos - camera_pos) * camera_zoom;
+    
+    view_pos /= window_size;
 
     gl_Position = vec4(view_pos, 0.0, 1.0);
     vColor = color;

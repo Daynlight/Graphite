@@ -81,6 +81,17 @@ float Graphite::AppRenderer::getDZoom(){
 
 
 
+std::array<unsigned int, 2> Graphite::AppRenderer::getWindowSize(){
+  return {renderer->getWindowData()->width, renderer->getWindowData()->height};
+};
+
+
+
+
+
+
+
+
 template<typename F>
 void Graphite::AppRenderer::renderFrame(F&& fun){
   renderer->beginFrame();

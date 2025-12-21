@@ -25,6 +25,7 @@ public:
 
   std::array<float, 2> getDPos();
   float getDZoom();
+  std::array<unsigned int, 2> getWindowSize();
 };
 };
 
