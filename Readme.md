@@ -3,6 +3,8 @@
   <p>Simple, fast 2D/3D math visual app (like GeoGebra) using C++ scripting and hot-reloadable DLLs.</p>
 </div>
 
+[![wakatime](https://wakatime.com/badge/user/233b40bd-5512-4e3e-9573-916f7b4127c3/project/baeb6a7b-44cc-43ef-839d-f7c5bb10bc9e.svg)](https://wakatime.com/badge/user/233b40bd-5512-4e3e-9573-916f7b4127c3/project/baeb6a7b-44cc-43ef-839d-f7c5bb10bc9e)
+
 
 
 
