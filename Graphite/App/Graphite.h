@@ -23,7 +23,7 @@ class Graphite{
 private:
   std::unordered_map<std::string, bool> flags;
   std::filesystem::path path = std::filesystem::path("./");
-  
+
 private:
   void initFile(const std::string& filename, const char* data);
   void init();
@@ -36,6 +36,9 @@ private:
   void detectPath(int* i, int args, const char* argv[]);
   void detectFlags(int args, const char* argv[]);
   void executeFlags();
+
+  void calculateDeltas(AppRenderer* renderer);
+  void calculateWindowSize(AppRenderer* renderer);
 
 public:
   void run(int args, const char* argv[]);

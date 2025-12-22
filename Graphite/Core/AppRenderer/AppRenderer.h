@@ -6,6 +6,8 @@
 
 #pragma once
 #include "Renderer.h"
+#include "Globals.h"
+#include <array>
 
 
 namespace Graphite{
@@ -21,6 +23,9 @@ public:
   void renderFrame(F&& fun);
   bool isRunning();
 
+  std::array<float, 2> getDPos();
+  float getDZoom();
+  std::array<unsigned int, 2> getWindowSize();
 };
 };
 

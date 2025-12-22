@@ -9,6 +9,10 @@
 bool verbose_mode = 0;
 bool sandbox_mode = 0;
 
+std::array<float, 2> d_pos = {0.0f, 0.0f};
+float d_zoom = 1.0f;
+std::array<float, 2> window_size = {1.0f, 1.0f};
+
 
 int main(int args, const char* argv[]){
   Graphite::Graphite graphite;
@@ -54,12 +58,40 @@ void Graphite::Graphite::run(int args, const char *argv[]){
 
 
 
+void Graphite::Graphite::calculateDeltas(AppRenderer* renderer){
+  d_pos = renderer->getDPos();
+  d_zoom = renderer->getDZoom();
+};
+
+
+
+
+
+
+
+
+void Graphite::Graphite::calculateWindowSize(AppRenderer *renderer) {
+  std::array<unsigned int, 2> temp_window_size = renderer->getWindowSize();
+  window_size[0] = temp_window_size[0];
+  window_size[1] = temp_window_size[1];
+};
+
+
+
+
+
+
+
+
 void Graphite::Graphite::runProgram(){
   AppRenderer renderer;
   ScriptLoader script(path);
 
 
   while(renderer.isRunning()){
+    calculateDeltas(&renderer);
+    calculateWindowSize(&renderer);
+
     if(script.checkLastWrite()) 
       script.updateScript();
 
