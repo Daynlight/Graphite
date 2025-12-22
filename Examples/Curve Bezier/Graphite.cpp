@@ -9,13 +9,13 @@
 
 #include <math.h>
 
-#define SAMPLES 50
+#define SAMPLES 500
 
 
 class Script : ScriptInterface{
-  Graphite::Math::Point control_points[3] = {{{-0.7, 0.7}, {0.0, 0.0, 1.0}}, 
-                                             {{0.7, -0.5}, {0.0, 0.0, 1.0}}, 
-                                             {{0.9, 0.4}, {0.0, 0.0, 1.0}}};
+  Graphite::Math::Point control_points[3] = {{{-400, 400}, {0.0, 0.0, 1.0}}, 
+                                             {{700, -80}, {0.0, 0.0, 1.0}}, 
+                                             {{500, 300}, {0.0, 0.0, 1.0}}};
 
   Graphite::Math::Plot2D plot;
 

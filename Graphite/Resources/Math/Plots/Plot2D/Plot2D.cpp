@@ -7,39 +7,18 @@
 #include "Plot2D.h"
 
 
-void Graphite::Math::Plot2D::drawPoint(Graphite::Math::Point point){
-
-  CW::Renderer::Mesh viewport = CW::Renderer::Mesh(
-  {
-    -1.0f,  1.0f, 0.0f,
-    -1.0f, -1.0f, 0.0f,
-    1.0f,  1.0f, 0.0f,
-    1.0f, -1.0f, 0.0f,
-  }, 
-  {
-    0, 1, 2,
-    1, 3, 2
-  });
+void Graphite::Math::Plot2D::drawPoint(const std::string& cell_name, Graphite::Math::Point point){
   
-  CW::Renderer::DrawShader shader = CW::Renderer::DrawShader(vertexPointShader, fragmentPointShader);
+  if(!point.getUpdatedState()){
+    std::pair<std::vector<float>, std::vector<unsigned int>> mesh_data = point.generateMesh();
+    CW::Renderer::Mesh mesh(mesh_data.first, mesh_data.second);
+    meshes[cell_name] = mesh;
+  };
 
-  std::array<float, 2> pos = point.getPos();
-  std::array<float, 3> color = point.getColor();
-  
-  CW::Renderer::Uniform uniform;
-  shader.getUniforms().emplace_back(&uniform);
-  uniform["pos"]->set<glm::vec2>({pos[0], pos[1]});
-  uniform["color"]->set<glm::vec3>({color[0], color[1], color[2]});
+  shader->bind();
+  meshes[cell_name].render();
+  shader->unbind();
 
-  uniform["camera_pos"]->set<glm::vec2>({this->pos[0], this->pos[1]});
-  uniform["camera_zoom"]->set<float>(zoom);
-  uniform["window_size"]->set<glm::vec2>({window_size[0], window_size[1]});
-
-  shader.bind();
-  viewport.render();
-  shader.unbind();
-  
-  shader.getUniforms().clear();
 };
 
 
@@ -48,6 +27,9 @@ void Graphite::Math::Plot2D::drawPoint(Graphite::Math::Point point){
 
 
 Graphite::Math::Plot2D::Plot2D(){
+  uniform = new CW::Renderer::Uniform;
+  shader = new CW::Renderer::DrawShader(vertexPointShader, fragmentPointShader);
+  shader->getUniforms().emplace_back(uniform);
 };
 
 
@@ -57,6 +39,9 @@ Graphite::Math::Plot2D::Plot2D(){
 
 Graphite::Math::Plot2D::~Plot2D() {
   point_cell.clear();
+  meshes.clear();
+  delete uniform;
+  delete shader;
 };
 
 
@@ -65,8 +50,13 @@ Graphite::Math::Plot2D::~Plot2D() {
 
 
 void Graphite::Math::Plot2D::draw(){
-  for(std::pair<std::string, Graphite::Math::Point> el : point_cell)
-    drawPoint(el.second);
+  (*uniform)["camera_pos"]->set<glm::vec2>({this->pos[0], this->pos[1]});
+  (*uniform)["camera_zoom"]->set<float>(zoom);
+  (*uniform)["window_size"]->set<glm::vec2>({window_size[0], window_size[1]});
+
+  for(std::pair<std::string, Graphite::Math::Point> el : point_cell){
+    drawPoint(el.first, el.second);
+  };
 };
 
 
