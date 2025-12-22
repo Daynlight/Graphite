@@ -65,33 +65,11 @@ void Graphite::Math::Point::setColor(std::array<float, 3> color) {
 
 
 
-std::pair<std::vector<float>, std::vector<unsigned int>> Graphite::Math::Point::generateMesh(){
-  float point_size = 5;
-
-  std::vector<float> vertices =
-  {
-    pos[0] - point_size,  pos[1] + point_size, 0.0f,
-    pos[0] - point_size, pos[1] - point_size, 0.0f,
-    pos[0] + point_size,  pos[1] + point_size, 0.0f,
-    pos[0] + point_size, pos[1] - point_size, 0.0f,
-  };
-  
-  std::vector<unsigned int> indicies = 
-  {
-    0, 1, 2,
-    1, 3, 2
-  };
-
-  updated = true;
-  return {vertices, indicies};
-};
-
-
-
-
-
-
-
 bool Graphite::Math::Point::getUpdatedState(){
-  return updated;
+  if(!updated){
+    updated = true;
+    return false;
+  };
+
+  return true;
 };

@@ -6,7 +6,6 @@
 
 #pragma once
 #include <array>
-#include <vector>
 
 
 namespace Graphite::Math{
@@ -27,8 +26,6 @@ public:
   std::array<float, 3> getColor();
   void setColor(std::array<float, 3> color);
 
-  std::pair<std::vector<float>, std::vector<unsigned int>> generateMesh();
-  
   bool getUpdatedState();
 };
 };

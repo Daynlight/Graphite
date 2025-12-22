@@ -46,6 +46,7 @@ const std::vector<std::string> resources = {
   "Plot2D.h",
   "Math.h",
   "Point.h",
+  "Line.h",
 };
 
 int main(){

@@ -9,24 +9,20 @@
 
 #include <math.h>
 
-#define SAMPLES 300
-
 
 class Script : ScriptInterface{
+  Graphite::Math::Point control_points[3] = {{{-400, 400}, {0.0, 0.0, 1.0}}, 
+                                             {{200, 0}, {0.0, 0.0, 1.0}}, 
+                                             {{400, -300}, {0.0, 0.0, 1.0}}};
+
   Graphite::Math::Plot2D plot;
-  float f(float x) { return 300 * sin(x * M_PI * 2); };
-
-
 
 
 
 
   void Init(){
-    for(int i = 0; i < SAMPLES; i++){
-      float x = ((i/(SAMPLES - 1.0f) * 2) - 1) * 600;
-      float y = f(x);
-      plot.point_cell[std::to_string(i)] = Graphite::Math::Point({x, y});
-    };
+    plot.line_cell["l_1"] = Graphite::Math::Line(control_points[0].getPos(), control_points[1].getPos());
+    plot.line_cell["l_2"] = Graphite::Math::Line(control_points[1].getPos(), control_points[2].getPos());
   };
 
   void Update(){
