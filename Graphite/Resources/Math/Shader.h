@@ -8,7 +8,7 @@
 #include <string>
 
 
-inline std::string vertexPointShader = R"(
+inline std::string vertexFillShader = R"(
 #version 430 core
 
 layout(location = 0) in vec2 aPos;
@@ -36,7 +36,7 @@ void main() {
 
 
 
-inline std::string fragmentPointShader = R"(
+inline std::string fragmentFillShader = R"(
 #version 430 core
 
 in vec3 vColor;

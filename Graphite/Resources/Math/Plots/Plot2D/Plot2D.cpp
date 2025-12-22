@@ -29,11 +29,11 @@ void Graphite::Math::Plot2D::drawPoint(const std::string& cell_name, Graphite::M
     };
     
     CW::Renderer::Mesh mesh(vertices, indicies);
-    meshes[cell_name] = mesh;
+    meshes["p: " + cell_name] = mesh;
   };
 
   shader->bind();
-  meshes[cell_name].render();
+  meshes["p: " + cell_name].render();
   shader->unbind();
 
 };
@@ -43,9 +43,53 @@ void Graphite::Math::Plot2D::drawPoint(const std::string& cell_name, Graphite::M
 
 
 
+void Graphite::Math::Plot2D::drawLine(const std::string& cell_name, Graphite::Math::Line line){
+  
+  if(!line.getUpdatedState()){
+    float thickness = 5.0f;
+
+    std::pair<std::array<float, 2>, std::array<float, 2>> pos = line.getPos();
+    auto& p0 = pos.first;
+    auto& p1 = pos.second;
+
+    float dx = p1[0] - p0[0];
+    float dy = p1[1] - p0[1];
+    float len = std::sqrt(dx*dx + dy*dy);
+    float nx = -dy / len;
+    float ny = dx / len;
+    float tx = nx * (thickness * 0.5f);
+    float ty = ny * (thickness * 0.5f);
+
+
+    std::vector<float> vertices = {
+      p0[0] + tx, p0[1] + ty, 0.0f,
+      p0[0] - tx, p0[1] - ty, 0.0f,
+      p1[0] + tx, p1[1] + ty, 0.0f,
+      p1[0] - tx, p1[1] - ty, 0.0f 
+    };
+
+    std::vector<unsigned int> indicies = {
+      0, 1, 2,
+      1, 3, 2
+    };
+
+    CW::Renderer::Mesh mesh(vertices, indicies);
+    meshes["l: " + cell_name] = mesh;
+  }
+
+  shader->bind();
+  meshes["l: " + cell_name].render();
+  shader->unbind();
+}
+
+
+
+
+
+
 Graphite::Math::Plot2D::Plot2D(){
   uniform = new CW::Renderer::Uniform;
-  shader = new CW::Renderer::DrawShader(vertexPointShader, fragmentPointShader);
+  shader = new CW::Renderer::DrawShader(vertexFillShader, fragmentFillShader);
   shader->getUniforms().emplace_back(uniform);
 };
 
@@ -70,6 +114,10 @@ void Graphite::Math::Plot2D::draw(){
   (*uniform)["camera_pos"]->set<glm::vec2>({this->pos[0], this->pos[1]});
   (*uniform)["camera_zoom"]->set<float>(zoom);
   (*uniform)["window_size"]->set<glm::vec2>({window_size[0], window_size[1]});
+
+  for(std::pair<std::string, Graphite::Math::Line> el : line_cell){
+    drawLine(el.first, el.second);
+  };
 
   for(std::pair<std::string, Graphite::Math::Point> el : point_cell){
     drawPoint(el.first, el.second);

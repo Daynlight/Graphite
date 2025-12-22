@@ -6,7 +6,6 @@
 
 #pragma once
 #include <array>
-#include <vector>
 
 
 namespace Graphite::Math{
