@@ -6,6 +6,7 @@
 
 #pragma once
 #include <array>
+#include <vector>
 
 
 namespace Graphite::Math{
@@ -13,6 +14,8 @@ class Point{
 private:
   std::array<float, 2> pos = {0.0f, 0.0f};
   std::array<float, 3> color = {1.0f, 1.0f, 1.0f};
+
+  bool updated = false;
 
 public:
   Point(std::array<float, 2> pos = {0.0f, 0.0f}, std::array<float, 3> color = {1.0f, 1.0f, 1.0f});
@@ -24,5 +27,8 @@ public:
   std::array<float, 3> getColor();
   void setColor(std::array<float, 3> color);
 
+  std::pair<std::vector<float>, std::vector<unsigned int>> generateMesh();
+  
+  bool getUpdatedState();
 };
 };

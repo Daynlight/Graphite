@@ -12,6 +12,9 @@
   #include "Resources/Math/Point/Point.h"
   #include "Resources/Math/Point/PointShader.h"
   #include "Globals.h"
+
+  CW::Renderer::DrawShader* shader;
+  CW::Renderer::Uniform* uniform;
 #else
   #include "Graphite/Point.h"
 #endif
