@@ -10,8 +10,25 @@
 void Graphite::Math::Plot2D::drawPoint(const std::string& cell_name, Graphite::Math::Point point){
   
   if(!point.getUpdatedState()){
-    std::pair<std::vector<float>, std::vector<unsigned int>> mesh_data = point.generateMesh();
-    CW::Renderer::Mesh mesh(mesh_data.first, mesh_data.second);
+    float point_size = 5;
+
+    std::array<float, 2> pos = point.getPos();
+
+    std::vector<float> vertices =
+    {
+      pos[0] - point_size,  pos[1] + point_size, 0.0f,
+      pos[0] - point_size, pos[1] - point_size, 0.0f,
+      pos[0] + point_size,  pos[1] + point_size, 0.0f,
+      pos[0] + point_size, pos[1] - point_size, 0.0f,
+    };
+    
+    std::vector<unsigned int> indicies = 
+    {
+      0, 1, 2,
+      1, 3, 2
+    };
+    
+    CW::Renderer::Mesh mesh(vertices, indicies);
     meshes[cell_name] = mesh;
   };
 
