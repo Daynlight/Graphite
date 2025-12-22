@@ -15,6 +15,7 @@
 
   CW::Renderer::DrawShader* shader;
   CW::Renderer::Uniform* uniform;
+  std::unordered_map<std::string, CW::Renderer::Mesh> meshes;
 #else
   #include "Graphite/Point.h"
 #endif
@@ -30,7 +31,7 @@ public:
   std::unordered_map<std::string, Graphite::Math::Point> point_cell;
 
 private:
-  void drawPoint(Graphite::Math::Point point);
+  void drawPoint(const std::string& cell_name, Graphite::Math::Point point);
   std::array<float, 2> pos = {0.0f, 0.0f};
   float zoom = 1.0f;
 

@@ -7,13 +7,16 @@
 #include "Plot2D.h"
 
 
-void Graphite::Math::Plot2D::drawPoint(Graphite::Math::Point point){
+void Graphite::Math::Plot2D::drawPoint(const std::string& cell_name, Graphite::Math::Point point){
   
-  std::pair<std::vector<float>, std::vector<unsigned int>> mesh_data = point.generateMesh();
-  CW::Renderer::Mesh mesh(mesh_data.first, mesh_data.second);
+  if(!point.getUpdatedState()){
+    std::pair<std::vector<float>, std::vector<unsigned int>> mesh_data = point.generateMesh();
+    CW::Renderer::Mesh mesh(mesh_data.first, mesh_data.second);
+    meshes[cell_name] = mesh;
+  };
 
   shader->bind();
-  mesh.render();
+  meshes[cell_name].render();
   shader->unbind();
 
 };
@@ -36,6 +39,7 @@ Graphite::Math::Plot2D::Plot2D(){
 
 Graphite::Math::Plot2D::~Plot2D() {
   point_cell.clear();
+  meshes.clear();
   delete uniform;
   delete shader;
 };
@@ -51,7 +55,7 @@ void Graphite::Math::Plot2D::draw(){
   (*uniform)["window_size"]->set<glm::vec2>({window_size[0], window_size[1]});
 
   for(std::pair<std::string, Graphite::Math::Point> el : point_cell){
-    drawPoint(el.second);
+    drawPoint(el.first, el.second);
   };
 };
 
