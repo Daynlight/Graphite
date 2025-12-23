@@ -91,6 +91,19 @@ Graphite::Math::Plot2D::Plot2D(){
   uniform = new CW::Renderer::Uniform;
   shader = new CW::Renderer::DrawShader(vertexFillShader, fragmentFillShader);
   shader->getUniforms().emplace_back(uniform);
+
+  pre_mesh = new CW::Renderer::Mesh({
+    -1.0f, -1.0f, 0.1f,
+    1.0f, -1.0f, 0.1f,
+    -1.0f, 1.0f, 0.1f,
+    1.0f, 1.0f, 0.1f
+  },{
+    0, 1, 2,
+    1, 2, 3
+  });
+
+  pre_shader = new CW::Renderer::DrawShader(vertexPreShader, fragmentPreShader);
+  pre_shader->getUniforms().emplace_back(uniform);
 };
 
 
@@ -100,9 +113,13 @@ Graphite::Math::Plot2D::Plot2D(){
 
 Graphite::Math::Plot2D::~Plot2D() {
   point_cell.clear();
+  line_cell.clear();
   meshes.clear();
   delete uniform;
   delete shader;
+
+  delete pre_shader;
+  delete pre_mesh;
 };
 
 
@@ -114,6 +131,10 @@ void Graphite::Math::Plot2D::draw(){
   (*uniform)["camera_pos"]->set<glm::vec2>({this->pos[0], this->pos[1]});
   (*uniform)["camera_zoom"]->set<float>(zoom);
   (*uniform)["window_size"]->set<glm::vec2>({window_size[0], window_size[1]});
+
+  pre_shader->bind();
+  pre_mesh->render();
+  pre_shader->unbind();
 
   for(std::pair<std::string, Graphite::Math::Line> el : line_cell){
     drawLine(el.first, el.second);
@@ -132,5 +153,12 @@ void Graphite::Math::Plot2D::draw(){
 void Graphite::Math::Plot2D::plotEvents() {
   pos[0] += d_pos[0];
   pos[1] += d_pos[1];
+  
   zoom += d_zoom;
+
+  if(zoom > MAXZOOM)
+    zoom = MAXZOOM;
+
+  if(zoom < MINZOOM)
+    zoom = MINZOOM;
 };

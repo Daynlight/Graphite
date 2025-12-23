@@ -11,10 +11,15 @@
   #include "Uniform/Uniform.h"
   #include "Resources/Math/Functions/Point/Point.h"
   #include "Resources/Math/Functions/Line/Line.h"
-  #include "Resources/Math/Shader.h"
+  #include "Shader.h"
+  #include "PreShader.h"
   #include "Globals.h"
 
+  CW::Renderer::DrawShader* pre_shader;
+  CW::Renderer::Mesh* pre_mesh;
+
   CW::Renderer::DrawShader* shader;
+  
   CW::Renderer::Uniform* uniform;
   std::unordered_map<std::string, CW::Renderer::Mesh> meshes;
 #else
