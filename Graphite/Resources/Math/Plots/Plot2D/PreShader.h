@@ -34,17 +34,25 @@ uniform float camera_zoom;
 uniform vec2 window_size;
 
 float main_thickness = 4.0f;
+float side_thickness = 2.0f;
 
+float modulo = 10.0f;
 
 void main() {
   vec2 ndc = (gl_FragCoord.xy / window_size) * 2.0f - 1.0f;
-  // vec2 worldPos = (gl_FragCoord.xy - window_size / 2.0f + camera_pos) * camera_zoom;
   vec2 worldPos = ndc * window_size / camera_zoom + camera_pos;
+
+  modulo = pow(10, floor(log2(window_size.x / camera_zoom) / log2(10)));
   
-  if(abs(worldPos.x) < main_thickness || abs(worldPos.y) < main_thickness)
-      FragColor = vec4(1.0, 1.0, 1.0, 0.7);
+  if(abs(worldPos.x) < main_thickness / camera_zoom || abs(worldPos.y) < main_thickness / camera_zoom)
+    FragColor = vec4(1.0, 1.0, 1.0, 0.7);
+
+  else if(abs(mod(worldPos.x, floor(modulo))) < side_thickness / camera_zoom || 
+          abs(mod(worldPos.y, floor(modulo))) < side_thickness / camera_zoom)
+    FragColor = vec4(1.0, 1.0, 1.0, 0.5);
+  
   else
-      FragColor = vec4(0.0, 0.0, 0.0, 0.0);
+    FragColor = vec4(0.0, 0.0, 0.0, 0.0);
 }
 
 )";

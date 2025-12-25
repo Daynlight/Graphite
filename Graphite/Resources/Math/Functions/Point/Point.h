@@ -14,14 +14,19 @@ private:
   std::array<float, 2> pos = {0.0f, 0.0f};
   std::array<float, 3> color = {1.0f, 1.0f, 1.0f};
 
+  float size = 1.0f;
+
   bool updated = false;
 
 public:
-  Point(std::array<float, 2> pos = {0.0f, 0.0f}, std::array<float, 3> color = {1.0f, 1.0f, 1.0f});
+  Point(std::array<float, 2> pos = {0.0f, 0.0f}, float size = 1.0f, std::array<float, 3> color = {1.0f, 1.0f, 1.0f});
   ~Point();
 
   std::array<float, 2> getPos();
   void setPos(std::array<float, 2> pos);
+
+  float getSize();
+  void setSize(float size);
 
   std::array<float, 3> getColor();
   void setColor(std::array<float, 3> color);

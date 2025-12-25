@@ -21,7 +21,6 @@ uniform vec2 window_size;
 
 void main() {
     float window_ratio = window_size.y / window_size.x;
-    float scale = 1.0f;
     
     vec2 world_pos = aPos.xy;
     vec2 view_pos = (world_pos - camera_pos) * camera_zoom;

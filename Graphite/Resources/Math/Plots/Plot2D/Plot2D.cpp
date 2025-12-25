@@ -10,7 +10,7 @@
 void Graphite::Math::Plot2D::drawPoint(const std::string& cell_name, Graphite::Math::Point point){
   
   if(!point.getUpdatedState()){
-    float point_size = 5;
+    float point_size = point.getSize();
 
     std::array<float, 2> pos = point.getPos();
 
@@ -104,6 +104,8 @@ Graphite::Math::Plot2D::Plot2D(){
 
   pre_shader = new CW::Renderer::DrawShader(vertexPreShader, fragmentPreShader);
   pre_shader->getUniforms().emplace_back(uniform);
+
+  zoom = 10.0f / (1.0f / window_size[0]);
 };
 
 
@@ -151,10 +153,10 @@ void Graphite::Math::Plot2D::draw(){
 
 
 void Graphite::Math::Plot2D::plotEvents() {
-  pos[0] += d_pos[0];
-  pos[1] += d_pos[1];
+  pos[0] += d_pos[0] / zoom;
+  pos[1] += d_pos[1] / zoom;
   
-  zoom += d_zoom;
+  zoom += d_zoom * zoom;
 
   if(zoom > MAXZOOM)
     zoom = MAXZOOM;
