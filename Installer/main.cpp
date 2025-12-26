@@ -47,6 +47,7 @@ const std::vector<std::string> resources = {
   "Math.h",
   "Point.h",
   "Line.h",
+  "MultiLine.h",
 };
 
 int main(){

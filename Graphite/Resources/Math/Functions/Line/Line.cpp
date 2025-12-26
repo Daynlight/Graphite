@@ -58,6 +58,7 @@ float Graphite::Math::Line::getSize(){
 
 void Graphite::Math::Line::setSize(float size){
   this->size = size;
+  updated = false;
 };
 
 
@@ -78,6 +79,7 @@ std::array<float, 3> Graphite::Math::Line::getColor(){
 
 void Graphite::Math::Line::setColor(std::array<float, 3> color) {
   this->color = color;
+  updated = false;
 };
 
 

@@ -7,3 +7,5 @@
 #pragma once
 #include "Graphite/Plot2D.h"
 #include "Graphite/Point.h"
+#include "Graphite/Line.h"
+#include "Graphite/MultiLine.h"

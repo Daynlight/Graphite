@@ -57,6 +57,7 @@ float Graphite::Math::Point::getSize(){
 
 void Graphite::Math::Point::setSize(float size){
   this->size = size;
+  updated = false;
 };
 
 
@@ -77,6 +78,7 @@ std::array<float, 3> Graphite::Math::Point::getColor(){
 
 void Graphite::Math::Point::setColor(std::array<float, 3> color) {
   this->color = color;
+  updated = false;
 };
 
 
