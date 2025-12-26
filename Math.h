@@ -5,6 +5,5 @@
 
 
 #pragma once
-
-
-#include <Graphite/Point.h>
+#include "Graphite/Plot2D.h"
+#include "Graphite/Point.h"

@@ -1,6 +1,8 @@
 <div align="center">
   <h1>⚪️ Graphite ⚪️</h1>
   <p>Simple, fast 2D/3D math visual app (like GeoGebra) using C++ scripting and hot-reloadable DLLs.</p>
+
+[![wakatime](https://wakatime.com/badge/user/233b40bd-5512-4e3e-9573-916f7b4127c3/project/baeb6a7b-44cc-43ef-839d-f7c5bb10bc9e.svg)](https://wakatime.com/badge/user/233b40bd-5512-4e3e-9573-916f7b4127c3/project/baeb6a7b-44cc-43ef-839d-f7c5bb10bc9e)
 </div>
 
 
@@ -34,6 +36,10 @@ Who it's for:
     <td><img src="docs/ss/Bezier.png" alt="Bezier"/></td>
     <td><img src="docs/ss/Sin.png" alt="Sin"/></td>
   </tr>
+  <tr>
+    <td><img src="docs/ss/Plots.png" alt="Plots"/></td>
+    <td><img src="docs/ss/Lines.png" alt="Lines"/></td>
+  </tr>
 </table>
 
 
@@ -42,6 +48,7 @@ Who it's for:
 ## Table of Contents
 - [About](#about)
 - [Screenshots](#screenshots)
+- [Table of Contents](#table-of-contents)
 - [Installation](#installation)
 - [Usage](#usage)
   - [Run](#run)
@@ -51,7 +58,7 @@ Who it's for:
 - [Prerequisites](#prerequisites)
 - [Versions and features](#versions-and-features)
 - [Other Docs](#other-docs)
-- [Cat 🐱](#cat)
+- [Cat 🐱](#cat-)
 
 
 
@@ -91,35 +98,41 @@ Graphite <flags> <path>
 // Licensed under the Apache License, Version 2.0.
 // See LICENSE file for details.
 
+
 #define  BUILDING_SCRIPT_DLL
 #include <Graphite/ScriptInterface.h>
-#include <Graphite/Math.h>
 
 #include <math.h>
 
-#define SAMPLES 1000
 
-class Script : ScriptInterface {
-  Graphite::Math::Point points[SAMPLES];
-  float f(float x) { return (1/2.0f) * sin(x * M_PI * 2); }
+class Script : ScriptInterface{
 
-  void Init() {
-    for (int i = 0; i < SAMPLES; i++) {
-      float x = (i / (SAMPLES - 1.0f) * 2) - 1;
-      float y = f(x);
-      points[i].setPos({x, y});
-    }
-  }
+  Graphite::Math::Plot2D plot;
 
-  void Update() { }
 
-  void Draw() {
-    for (int i = 0; i < SAMPLES; i++)
-      points[i].drawPoint();
-  }
+  void Init(){
+    plot.point_cell["1"] = Graphite::Math::Point({-2.0f, 2.0f}, 0.2f);
+    plot.point_cell["2"] = Graphite::Math::Point({1.0f, -5.0f}, 0.2f);
+    plot.point_cell["3"] = Graphite::Math::Point({5.0f, 2.0f}, 0.2f);
 
-  void Destroy() { }
+    for(auto el : plot.point_cell)
+      plot.line_cell[el.first] = Graphite::Math::Line({0, 0}, plot.point_cell[el.first].getPos(), 0.1f);
+  };
+
+  void Update(){
+    plot.plotEvents();
+  };
+
+  void Draw(){
+    plot.draw();
+  };
+
+  void Destroy(){
+
+  };
 };
+
+
 
 extern "C" ScriptInterface* SCRIPT_API GetScript() {
   Script* script = new Script();

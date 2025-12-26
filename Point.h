@@ -5,7 +5,6 @@
 
 
 #pragma once
-
 #include <array>
 
 
@@ -13,26 +12,25 @@ namespace Graphite::Math{
 class Point{
 private:
   std::array<float, 2> pos = {0.0f, 0.0f};
-  
   std::array<float, 3> color = {1.0f, 1.0f, 1.0f};
 
-  void* uniform_ref = nullptr;
-  void* shader_ref = nullptr;
-  void* mesh_ref = nullptr;
+  float size = 1.0f;
 
-  void init();
-  
+  bool updated = false;
+
 public:
-  Point(std::array<float, 2> pos = {0.0f, 0.0f}, std::array<float, 3> color = {1.0f, 1.0f, 1.0f});
+  Point(std::array<float, 2> pos = {0.0f, 0.0f}, float size = 1.0f, std::array<float, 3> color = {1.0f, 1.0f, 1.0f});
   ~Point();
 
   std::array<float, 2> getPos();
   void setPos(std::array<float, 2> pos);
 
+  float getSize();
+  void setSize(float size);
+
   std::array<float, 3> getColor();
   void setColor(std::array<float, 3> color);
 
-  void drawPoint();
-  
+  bool getUpdatedState();
 };
 };
