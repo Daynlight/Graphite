@@ -11,17 +11,22 @@
 
 
 class Script : ScriptInterface{
+  Graphite::Math::Point control_points[3] = {{{-4, 4}, 0.2f, {0.0, 0.0, 1.0}}, 
+                                             {{0, -5}, 0.2f, {0.0, 0.0, 1.0}}, 
+                                             {{4, 3}, 0.2f, {0.0, 0.0, 1.0}}};
 
   Graphite::Math::Plot2D plot;
 
 
-  void Init(){
-    plot.point_cell["1"] = Graphite::Math::Point({-2.0f, 2.0f}, 0.2f);
-    plot.point_cell["2"] = Graphite::Math::Point({1.0f, -5.0f}, 0.2f);
-    plot.point_cell["3"] = Graphite::Math::Point({5.0f, 2.0f}, 0.2f);
 
-    for(auto el : plot.point_cell)
-      plot.line_cell[el.first] = Graphite::Math::Line({0, 0}, plot.point_cell[el.first].getPos(), 0.1f);
+
+  void Init(){
+    plot.point_cell["cp_1"] = control_points[0];
+    plot.point_cell["cp_2"] = control_points[1];
+    plot.point_cell["cp_3"] = control_points[2];
+
+    plot.line_cell["l_1"] = Graphite::Math::Line(control_points[0].getPos(), control_points[1].getPos(), 0.1f);
+    plot.line_cell["l_2"] = Graphite::Math::Line(control_points[1].getPos(), control_points[2].getPos(), 0.1f);
   };
 
   void Update(){
@@ -30,6 +35,7 @@ class Script : ScriptInterface{
 
   void Draw(){
     plot.draw();
+
   };
 
   void Destroy(){

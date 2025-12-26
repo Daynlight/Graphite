@@ -34,6 +34,10 @@ Who it's for:
     <td><img src="docs/ss/Bezier.png" alt="Bezier"/></td>
     <td><img src="docs/ss/Sin.png" alt="Sin"/></td>
   </tr>
+  <tr>
+    <td><img src="docs/ss/Plots.png" alt="Plots"/></td>
+    <td><img src="docs/ss/Lines.png" alt="Lines"/></td>
+  </tr>
 </table>
 
 
@@ -42,6 +46,7 @@ Who it's for:
 ## Table of Contents
 - [About](#about)
 - [Screenshots](#screenshots)
+- [Table of Contents](#table-of-contents)
 - [Installation](#installation)
 - [Usage](#usage)
   - [Run](#run)
@@ -51,7 +56,7 @@ Who it's for:
 - [Prerequisites](#prerequisites)
 - [Versions and features](#versions-and-features)
 - [Other Docs](#other-docs)
-- [Cat 🐱](#cat)
+- [Cat 🐱](#cat-)
 
 
 

@@ -9,13 +9,13 @@
 
 #include <math.h>
 
-#define SAMPLES 50
+#define SAMPLES 30
 
 
 class Script : ScriptInterface{
-  Graphite::Math::Point control_points[3] = {{{-0.7, 0.7}, {0.0, 0.0, 1.0}}, 
-                                             {{0.7, -0.5}, {0.0, 0.0, 1.0}}, 
-                                             {{0.9, 0.4}, {0.0, 0.0, 1.0}}};
+  Graphite::Math::Point control_points[3] = {{{-7, 5}, 0.2f, {0.0, 0.0, 1.0}}, 
+                                             {{3, -5}, 0.2f, {0.0, 0.0, 1.0}}, 
+                                             {{7, 3}, 0.2f, {0.0, 0.0, 1.0}}};
 
   Graphite::Math::Plot2D plot;
 
@@ -47,11 +47,19 @@ class Script : ScriptInterface{
     plot.point_cell["cp_2"] = control_points[1];
     plot.point_cell["cp_3"] = control_points[2]; 
 
-    for(int i = 0; i < SAMPLES; i++){
+    std::array<float,2> last_pos = {0, 0};
+    bool init = true;
+
+    for(int i = 0; i <= SAMPLES; i++){
       auto P = bezier((i * 1.0f) / SAMPLES);
-      plot.point_cell[std::to_string(i)] = Graphite::Math::Point(P);
+
+      if(!init){
+        plot.line_cell[std::to_string(i)] = Graphite::Math::Line(last_pos, P, 0.1f);
+      };
+
+      last_pos = P;
+      init = false;
     };
-    
   };
 
   void Update(){

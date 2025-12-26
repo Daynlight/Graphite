@@ -7,8 +7,8 @@
 #include "Point.h"
 
 
-Graphite::Math::Point::Point(std::array<float, 2> pos, std::array<float, 3> color)
-  : pos(pos), color(color){};
+Graphite::Math::Point::Point(std::array<float, 2> pos, float size, std::array<float, 3> color)
+  : pos(pos), size(size), color(color), updated(false) {};
 
 
 
@@ -36,6 +36,27 @@ std::array<float, 2> Graphite::Math::Point::getPos(){
 
 void Graphite::Math::Point::setPos(std::array<float, 2> pos) {
   this->pos = pos;
+  updated = false;
+};
+
+
+
+
+
+
+
+float Graphite::Math::Point::getSize(){
+  return size;
+};
+
+
+
+
+
+
+
+void Graphite::Math::Point::setSize(float size){
+  this->size = size;
 };
 
 
@@ -56,4 +77,19 @@ std::array<float, 3> Graphite::Math::Point::getColor(){
 
 void Graphite::Math::Point::setColor(std::array<float, 3> color) {
   this->color = color;
+};
+
+
+
+
+
+
+
+bool Graphite::Math::Point::getUpdatedState(){
+  if(!updated){
+    updated = true;
+    return false;
+  };
+
+  return true;
 };

@@ -38,6 +38,7 @@ private:
   void executeFlags();
 
   void calculateDeltas(AppRenderer* renderer);
+  void calculateWindowSize(AppRenderer* renderer);
 
 public:
   void run(int args, const char* argv[]);
