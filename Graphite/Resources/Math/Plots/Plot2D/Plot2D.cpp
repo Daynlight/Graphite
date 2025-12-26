@@ -21,6 +21,13 @@ void Graphite::Math::Plot2D::drawPoint(const std::string& cell_name, Graphite::M
       pos[0] + point_size,  pos[1] + point_size, 0.0f,
       pos[0] + point_size, pos[1] - point_size, 0.0f,
     };
+
+    std::vector<float> colors = {
+      color[0], color[1], color[2],
+      color[0], color[1], color[2],
+      color[0], color[1], color[2],
+      color[0], color[1], color[2],
+    };
     
     std::vector<unsigned int> indicies = 
     {
@@ -29,6 +36,7 @@ void Graphite::Math::Plot2D::drawPoint(const std::string& cell_name, Graphite::M
     };
     
     CW::Renderer::Mesh mesh(vertices, indicies);
+    mesh.addColors(colors);
     meshes["p: " + cell_name] = mesh;
   };
 
@@ -47,6 +55,7 @@ void Graphite::Math::Plot2D::drawLine(const std::string& cell_name, Graphite::Ma
   
   if(!line.getUpdatedState()){
     float thickness = line.getSize();
+    std::array<float, 3> color = line.getColor();
 
     std::pair<std::array<float, 2>, std::array<float, 2>> pos = line.getPos();
     auto& p0 = pos.first;
@@ -62,10 +71,17 @@ void Graphite::Math::Plot2D::drawLine(const std::string& cell_name, Graphite::Ma
 
 
     std::vector<float> vertices = {
-      p0[0] + tx, p0[1] + ty, 0.0f,
-      p0[0] - tx, p0[1] - ty, 0.0f,
-      p1[0] + tx, p1[1] + ty, 0.0f,
-      p1[0] - tx, p1[1] - ty, 0.0f 
+      p0[0] + tx, p0[1] + ty, 0.01f,
+      p0[0] - tx, p0[1] - ty, 0.01f,
+      p1[0] + tx, p1[1] + ty, 0.01f,
+      p1[0] - tx, p1[1] - ty, 0.01f 
+    };
+
+    std::vector<float> colors = {
+      color[0], color[1], color[2],
+      color[0], color[1], color[2],
+      color[0], color[1], color[2],
+      color[0], color[1], color[2],
     };
 
     std::vector<unsigned int> indicies = {
@@ -74,6 +90,7 @@ void Graphite::Math::Plot2D::drawLine(const std::string& cell_name, Graphite::Ma
     };
 
     CW::Renderer::Mesh mesh(vertices, indicies);
+    mesh.addColors(colors);
     meshes["l: " + cell_name] = mesh;
   }
 

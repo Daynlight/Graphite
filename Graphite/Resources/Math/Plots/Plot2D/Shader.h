@@ -12,6 +12,7 @@ inline std::string vertexFillShader = R"(
 #version 430 core
 
 layout(location = 0) in vec3 aPos;
+layout(location = 1) in vec3 aColor;
 
 out vec3 vColor;
 
@@ -29,7 +30,7 @@ void main() {
     view_pos.y /= window_size.y;
 
     gl_Position = vec4(view_pos, aPos.z, 1.0);
-    vColor = vec3(1.0f, 1.0f, 1.0f);
+    vColor = aColor;
 }
 
 )";
