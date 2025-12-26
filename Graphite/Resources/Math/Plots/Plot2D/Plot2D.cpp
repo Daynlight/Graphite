@@ -46,7 +46,7 @@ void Graphite::Math::Plot2D::drawPoint(const std::string& cell_name, Graphite::M
 void Graphite::Math::Plot2D::drawLine(const std::string& cell_name, Graphite::Math::Line line){
   
   if(!line.getUpdatedState()){
-    float thickness = 5.0f;
+    float thickness = line.getSize();
 
     std::pair<std::array<float, 2>, std::array<float, 2>> pos = line.getPos();
     auto& p0 = pos.first;

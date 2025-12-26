@@ -7,8 +7,8 @@
 #include "Line.h"
 
 
-Graphite::Math::Line::Line(std::array<float, 2> pos1, std::array<float, 2> pos2, std::array<float, 3> color)
-  : pos1(pos1), pos2(pos2), color(color), updated(false) {};
+Graphite::Math::Line::Line(std::array<float, 2> pos1, std::array<float, 2> pos2, float size, std::array<float, 3> color)
+  : pos1(pos1), pos2(pos2), size(size), color(color), updated(false) {};
 
 
 
@@ -38,6 +38,26 @@ void Graphite::Math::Line::setPos(std::array<float, 2> pos1, std::array<float, 2
   this->pos1 = pos1;
   this->pos2 = pos2;
   updated = false;
+};
+
+
+
+
+
+
+
+float Graphite::Math::Line::getSize(){
+  return size;
+};
+
+
+
+
+
+
+
+void Graphite::Math::Line::setSize(float size){
+  this->size = size;
 };
 
 

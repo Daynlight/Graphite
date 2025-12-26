@@ -16,9 +16,12 @@ class Script : ScriptInterface{
 
 
   void Init(){
-    plot.point_cell["1"] = Graphite::Math::Point({-20.0f, 2.0f});
-    plot.point_cell["2"] = Graphite::Math::Point({0.0f, -50.0f});
-    plot.point_cell["3"] = Graphite::Math::Point({5.0f, 20.0f});
+    plot.point_cell["1"] = Graphite::Math::Point({-2.0f, 2.0f}, 0.2f);
+    plot.point_cell["2"] = Graphite::Math::Point({1.0f, -5.0f}, 0.2f);
+    plot.point_cell["3"] = Graphite::Math::Point({5.0f, 2.0f}, 0.2f);
+
+    for(auto el : plot.point_cell)
+      plot.line_cell[el.first] = Graphite::Math::Line({0, 0}, plot.point_cell[el.first].getPos(), 0.1f);
   };
 
   void Update(){

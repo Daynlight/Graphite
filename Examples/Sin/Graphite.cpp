@@ -14,7 +14,7 @@
 
 class Script : ScriptInterface{
   Graphite::Math::Plot2D plot;
-  float f(float x) { return 300 * sin(x * M_PI * 2); };
+  float f(float x) { return 5 * sin((x * M_PI * 2)); };
 
 
 
@@ -22,10 +22,19 @@ class Script : ScriptInterface{
 
 
   void Init(){
+    std::array<float,2> last_pos = {0, 0};
+    bool init = true;
+
     for(int i = 0; i < SAMPLES; i++){
-      float x = ((i/(SAMPLES - 1.0f) * 2) - 1) * 600;
+      float x = ((i/(SAMPLES - 1.0f) * 2) - 1) * 7;
       float y = f(x);
-      plot.point_cell[std::to_string(i)] = Graphite::Math::Point({x, y});
+
+      if(!init){
+        plot.line_cell[std::to_string(i)] = Graphite::Math::Line(last_pos, {x, y}, 0.1f);
+      };
+
+      last_pos = {x, y};
+      init = false;
     };
   };
 
