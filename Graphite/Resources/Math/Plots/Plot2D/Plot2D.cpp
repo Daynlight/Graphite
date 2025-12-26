@@ -11,8 +11,8 @@ void Graphite::Math::Plot2D::drawPoint(const std::string& cell_name, Graphite::M
   
   if(!point.getUpdatedState()){
     float point_size = point.getSize();
-
     std::array<float, 2> pos = point.getPos();
+    std::array<float, 3> color = point.getColor();
 
     std::vector<float> vertices =
     {
