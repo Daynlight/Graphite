@@ -10,8 +10,11 @@
 #define ScriptName "Graphite.cpp"
 #define ScriptOutName "Graphite.so"
 
-#define MoveSpeed 10.0f;
-#define ZoomSpeed 0.01f;
+#define MoveSpeed 20.0f
+#define ZoomSpeed 0.02f
+
+#define MAXZOOM 100.0f
+#define MINZOOM 0.001f
 
 extern bool verbose_mode;
 extern bool sandbox_mode;

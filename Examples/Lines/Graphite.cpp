@@ -11,9 +11,9 @@
 
 
 class Script : ScriptInterface{
-  Graphite::Math::Point control_points[3] = {{{-400, 400}, {0.0, 0.0, 1.0}}, 
-                                             {{200, 0}, {0.0, 0.0, 1.0}}, 
-                                             {{400, -300}, {0.0, 0.0, 1.0}}};
+  Graphite::Math::Point control_points[3] = {{{-4, 4}, 0.2f, {0.0, 0.0, 1.0}}, 
+                                             {{0, -5}, 0.2f, {0.0, 0.0, 1.0}}, 
+                                             {{4, 3}, 0.2f, {0.0, 0.0, 1.0}}};
 
   Graphite::Math::Plot2D plot;
 
@@ -21,8 +21,12 @@ class Script : ScriptInterface{
 
 
   void Init(){
-    plot.line_cell["l_1"] = Graphite::Math::Line(control_points[0].getPos(), control_points[1].getPos());
-    plot.line_cell["l_2"] = Graphite::Math::Line(control_points[1].getPos(), control_points[2].getPos());
+    plot.point_cell["cp_1"] = control_points[0];
+    plot.point_cell["cp_2"] = control_points[1];
+    plot.point_cell["cp_3"] = control_points[2];
+
+    plot.line_cell["l_1"] = Graphite::Math::Line(control_points[0].getPos(), control_points[1].getPos(), 0.1f);
+    plot.line_cell["l_2"] = Graphite::Math::Line(control_points[1].getPos(), control_points[2].getPos(), 0.1f);
   };
 
   void Update(){
