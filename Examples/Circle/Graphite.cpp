@@ -9,27 +9,27 @@
 
 #include <math.h>
 
+#define SAMPLES 50
+
 
 class Script : ScriptInterface{
-  Graphite::Math::Point control_points[3] = {{{-4, 4}, 0.2f, {0.0, 0.0, 1.0}}, 
-                                             {{0, -5}, 0.2f, {0.0, 0.0, 1.0}}, 
-                                             {{4, 3}, 0.2f, {0.0, 0.0, 1.0}}};
-
   Graphite::Math::Plot2D plot;
 
+  std::array<float, 2> f(float t){
+    return {6 * cos(t), 6 * sin(t)};
+  };
 
 
 
   void Init(){
-    plot.point_cell["cp_1"] = control_points[0];
-    plot.point_cell["cp_2"] = control_points[1];
-    plot.point_cell["cp_3"] = control_points[2];
+    std::vector<std::array<float, 2>> points;
+    points.reserve(SAMPLES);
 
-    std::vector<std::array<float, 2>> points(3);
-    for(Graphite::Math::Point el : control_points)
-      points.emplace_back(el.getPos());
+    for(float t = 0; t < 2 * M_PI + M_PI / SAMPLES; t += 2 * M_PI / SAMPLES){
+      points.emplace_back(f(t));
+    };
     
-    plot.multi_line_cell["ml1"] = Graphite::Math::MultiLine(points);
+    plot.multi_line_cell["ml1"] = Graphite::Math::MultiLine(points, 0.2f, {0.0f, 0.7f, 0.7f});
   };
 
   void Update(){

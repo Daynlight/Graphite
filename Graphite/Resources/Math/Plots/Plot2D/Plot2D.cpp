@@ -105,60 +105,15 @@ void Graphite::Math::Plot2D::drawLine(const std::string& cell_name, Graphite::Ma
 
 
 void Graphite::Math::Plot2D::drawMultiLine(const std::string &cell_name, Graphite::Math::MultiLine line){
-if(!line.getUpdatedState()){
-  float thickness = line.getSize();
-  std::array<float, 3> color = line.getColor();
-  std::vector<std::array<float, 2>> points = line.getPoints();
+  if(!line.getUpdatedState()){
+    float thickness = line.getSize();
+    std::array<float, 3> color = line.getColor();
+    std::vector<std::array<float, 2>> points = line.getPoints();
 
-  std::vector<float> vertices(4 * points.size());
-  std::vector<unsigned int> indicies(6 * points.size());
-  std::vector<float> colors(4 * points.size());
-
-
-  for(int i = 0; i < points.size() - 1; i++){
-
-    // auto& p0 = pos.first;
-    // auto& p1 = pos.second;
-
-    // float dx = p1[0] - p0[0];
-    // float dy = p1[1] - p0[1];
-    // float len = std::sqrt(dx*dx + dy*dy);
-    // float nx = -dy / len;
-    // float ny = dx / len;
-    // float tx = nx * (thickness * 0.5f);
-    // float ty = ny * (thickness * 0.5f);
-
-    //  = {
-    //   p0[0] + tx, p0[1] + ty, 0.01f,
-    //   p0[0] - tx, p0[1] - ty, 0.01f,
-    //   p1[0] + tx, p1[1] + ty, 0.01f,
-    //   p1[0] - tx, p1[1] - ty, 0.01f 
-    // };
-
-    //  = {
-    //   color[0], color[1], color[2],
-    //   color[0], color[1], color[2],
-    //   color[0], color[1], color[2],
-    //   color[0], color[1], color[2],
-    // };
-    
-    //  = {
-    //   0, 1, 2,
-    //   1, 3, 2
-    // };
+    for (int i = 1; i < points.size(); i++)
+      drawLine("ml: " + cell_name, {points[i - 1], points[i], thickness, color});
   };
-
-
-    CW::Renderer::Mesh mesh(vertices, indicies);
-    mesh.addColors(colors);
-    meshes["ml: " + cell_name] = mesh;
-  };
-
-  shader->bind();
-  meshes["ml: " + cell_name].render();
-  shader->unbind();
 };
-
 
 
 
