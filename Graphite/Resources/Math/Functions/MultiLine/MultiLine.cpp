@@ -95,3 +95,22 @@ bool Graphite::Math::MultiLine::getUpdatedState(){
 
   return true;
 };
+
+
+
+
+
+
+
+std::vector<std::pair<std::array<std::vector<float>, 2>, std::vector<unsigned int>>> Graphite::Math::MultiLine::getMesh(){
+  std::vector<std::pair<std::array<std::vector<float>, 2>, std::vector<unsigned int>>> meshes;
+  meshes.reserve(points.size());
+  Graphite::Math::Line line;
+
+  for (int i = 1; i < points.size(); i++){
+    line = Graphite::Math::Line(points[i - 1], points[i], size, color);
+    meshes.emplace_back(line.getMesh());
+  };
+  
+  return meshes;
+};

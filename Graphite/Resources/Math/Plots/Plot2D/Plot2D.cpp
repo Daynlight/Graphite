@@ -10,33 +10,11 @@
 void Graphite::Math::Plot2D::drawPoint(const std::string& cell_name, Graphite::Math::Point point){
   
   if(!point.getUpdatedState()){
-    float point_size = point.getSize();
-    std::array<float, 2> pos = point.getPos();
-    std::array<float, 3> color = point.getColor();
-
-    std::vector<float> vertices =
-    {
-      pos[0] - point_size,  pos[1] + point_size, 0.0f,
-      pos[0] - point_size, pos[1] - point_size, 0.0f,
-      pos[0] + point_size,  pos[1] + point_size, 0.0f,
-      pos[0] + point_size, pos[1] - point_size, 0.0f,
-    };
-
-    std::vector<float> colors = {
-      color[0], color[1], color[2],
-      color[0], color[1], color[2],
-      color[0], color[1], color[2],
-      color[0], color[1], color[2],
-    };
+    std::pair<std::array<std::vector<float>, 2>, std::vector<unsigned int>> mesh_data = point.getMesh(); 
     
-    std::vector<unsigned int> indicies = 
-    {
-      0, 1, 2,
-      1, 3, 2
-    };
-    
-    CW::Renderer::Mesh mesh(vertices, indicies);
-    mesh.addColors(colors);
+    CW::Renderer::Mesh mesh(mesh_data.first[0], mesh_data.second);
+    mesh.addColors(mesh_data.first[1]);
+
     meshes["p: " + cell_name] = mesh;
   };
 
@@ -54,43 +32,10 @@ void Graphite::Math::Plot2D::drawPoint(const std::string& cell_name, Graphite::M
 void Graphite::Math::Plot2D::drawLine(const std::string& cell_name, Graphite::Math::Line line){
   
   if(!line.getUpdatedState()){
-    float thickness = line.getSize();
-    std::array<float, 3> color = line.getColor();
+    std::pair<std::array<std::vector<float>, 2>, std::vector<unsigned int>> mesh_data = line.getMesh(); 
 
-    std::pair<std::array<float, 2>, std::array<float, 2>> pos = line.getPos();
-    auto& p0 = pos.first;
-    auto& p1 = pos.second;
-
-    float dx = p1[0] - p0[0];
-    float dy = p1[1] - p0[1];
-    float len = std::sqrt(dx*dx + dy*dy);
-    float nx = -dy / len;
-    float ny = dx / len;
-    float tx = nx * (thickness * 0.5f);
-    float ty = ny * (thickness * 0.5f);
-
-
-    std::vector<float> vertices = {
-      p0[0] + tx, p0[1] + ty, 0.01f,
-      p0[0] - tx, p0[1] - ty, 0.01f,
-      p1[0] + tx, p1[1] + ty, 0.01f,
-      p1[0] - tx, p1[1] - ty, 0.01f 
-    };
-
-    std::vector<float> colors = {
-      color[0], color[1], color[2],
-      color[0], color[1], color[2],
-      color[0], color[1], color[2],
-      color[0], color[1], color[2],
-    };
-
-    std::vector<unsigned int> indicies = {
-      0, 1, 2,
-      1, 3, 2
-    };
-
-    CW::Renderer::Mesh mesh(vertices, indicies);
-    mesh.addColors(colors);
+    CW::Renderer::Mesh mesh(mesh_data.first[0], mesh_data.second);
+    mesh.addColors(mesh_data.first[1]);
     meshes["l: " + cell_name] = mesh;
   }
 
@@ -106,12 +51,21 @@ void Graphite::Math::Plot2D::drawLine(const std::string& cell_name, Graphite::Ma
 
 void Graphite::Math::Plot2D::drawMultiLine(const std::string &cell_name, Graphite::Math::MultiLine line){
   if(!line.getUpdatedState()){
-    float thickness = line.getSize();
-    std::array<float, 3> color = line.getColor();
-    std::vector<std::array<float, 2>> points = line.getPoints();
+    std::vector<std::pair<std::array<std::vector<float>, 2>, std::vector<unsigned int>>> mesh_data = line.getMesh();
 
-    for (int i = 1; i < points.size(); i++)
-      drawLine("ml: " + cell_name, {points[i - 1], points[i], thickness, color});
+    for(int i = 0; i < line.getPoints().size() - 1; i++){
+
+      CW::Renderer::Mesh mesh(mesh_data[i].first[0], mesh_data[i].second);
+      mesh.addColors(mesh_data[i].first[1]);
+
+      meshes["ml: " + cell_name + " " + std::to_string(i)] = mesh;
+    };
+  };
+  
+  for(int i = 0; i < line.getPoints().size() - 1; i++){
+    shader->bind();
+    meshes["ml: " + cell_name + " " + std::to_string(i)].render();
+    shader->unbind();
   };
 };
 

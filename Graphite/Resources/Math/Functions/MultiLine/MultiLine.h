@@ -8,6 +8,8 @@
 #include <array>
 #include <vector>
 
+#include "Resources/Math/Functions/Line/Line.h"
+
 
 namespace Graphite::Math{
 class MultiLine{
@@ -33,5 +35,8 @@ public:
   void setColor(std::array<float, 3> color);
 
   bool getUpdatedState();
+
+  std::vector<std::pair<std::array<std::vector<float>, 2>, std::vector<unsigned int>>> getMesh();
+
 };
 };

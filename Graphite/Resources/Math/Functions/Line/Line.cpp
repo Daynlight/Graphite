@@ -96,3 +96,48 @@ bool Graphite::Math::Line::getUpdatedState(){
 
   return true;
 };
+
+
+
+
+
+
+
+std::pair<std::array<std::vector<float>, 2>, std::vector<unsigned int>> Graphite::Math::Line::getMesh(){
+  float thickness = size;
+
+  std::pair<std::array<float, 2>, std::array<float, 2>> pos = getPos();
+
+  auto& p0 = pos.first;
+  auto& p1 = pos.second;
+
+  float dx = p1[0] - p0[0];
+  float dy = p1[1] - p0[1];
+  float len = std::sqrt(dx*dx + dy*dy);
+  float nx = -dy / len;
+  float ny = dx / len;
+  float tx = nx * (thickness * 0.5f);
+  float ty = ny * (thickness * 0.5f);
+
+
+  std::vector<float> vertices = {
+    p0[0] + tx, p0[1] + ty, 0.01f,
+    p0[0] - tx, p0[1] - ty, 0.01f,
+    p1[0] + tx, p1[1] + ty, 0.01f,
+    p1[0] - tx, p1[1] - ty, 0.01f 
+  };
+
+  std::vector<float> colors = {
+    color[0], color[1], color[2],
+    color[0], color[1], color[2],
+    color[0], color[1], color[2],
+    color[0], color[1], color[2],
+  };
+
+  std::vector<unsigned int> indicies = {
+    0, 1, 2,
+    1, 3, 2
+  };
+  
+  return {{vertices, colors}, indicies};
+};
