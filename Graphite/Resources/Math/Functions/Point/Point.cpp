@@ -121,7 +121,7 @@ std::pair<std::array<std::vector<float>, 2>, std::vector<unsigned int>> Graphite
 
   std::vector<unsigned int> indicies = {
     0, 1, 2,
-    1, 3, 2
+    1, 3, 2,
   };
 
 

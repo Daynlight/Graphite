@@ -102,15 +102,31 @@ bool Graphite::Math::MultiLine::getUpdatedState(){
 
 
 
-std::vector<std::pair<std::array<std::vector<float>, 2>, std::vector<unsigned int>>> Graphite::Math::MultiLine::getMesh(){
-  std::vector<std::pair<std::array<std::vector<float>, 2>, std::vector<unsigned int>>> meshes;
-  meshes.reserve(points.size());
+std::pair<std::array<std::vector<float>, 2>, std::vector<unsigned int>> Graphite::Math::MultiLine::getMesh(){
+  std::pair<std::array<std::vector<float>, 2>, std::vector<unsigned int>> mesh;
+
+  mesh.first[0].reserve(points.size() * 3 * 4);
+  mesh.first[1].reserve(points.size() * 3 * 4);
+  mesh.second.reserve(points.size() * 6);
+
+  
   Graphite::Math::Line line;
+  std::pair<std::array<std::vector<float>, 2>, std::vector<unsigned int>> mesh_temp;
+
 
   for (int i = 1; i < points.size(); i++){
     line = Graphite::Math::Line(points[i - 1], points[i], size, color);
-    meshes.emplace_back(line.getMesh());
+    mesh_temp = line.getMesh();
+
+    for(int j = 0; j < 4 * 3; j++)
+      mesh.first[0].emplace_back(mesh_temp.first[0][j]);
+      
+    for(int j = 0; j < 4 * 3; j++)
+      mesh.first[1].emplace_back(mesh_temp.first[1][j]);
+    
+    for(int j = 0; j < 3 * 2; j++)
+      mesh.second.emplace_back((i - 1) * 4 + mesh_temp.second[j]);
   };
   
-  return meshes;
+  return mesh;
 };

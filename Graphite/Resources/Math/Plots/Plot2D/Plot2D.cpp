@@ -51,22 +51,17 @@ void Graphite::Math::Plot2D::drawLine(const std::string& cell_name, Graphite::Ma
 
 void Graphite::Math::Plot2D::drawMultiLine(const std::string &cell_name, Graphite::Math::MultiLine line){
   if(!line.getUpdatedState()){
-    std::vector<std::pair<std::array<std::vector<float>, 2>, std::vector<unsigned int>>> mesh_data = line.getMesh();
+    std::pair<std::array<std::vector<float>, 2>, std::vector<unsigned int>> mesh_data = line.getMesh();
 
-    for(int i = 0; i < line.getPoints().size() - 1; i++){
+    CW::Renderer::Mesh mesh(mesh_data.first[0], mesh_data.second);
+    mesh.addColors(mesh_data.first[1]);
 
-      CW::Renderer::Mesh mesh(mesh_data[i].first[0], mesh_data[i].second);
-      mesh.addColors(mesh_data[i].first[1]);
-
-      meshes["ml: " + cell_name + " " + std::to_string(i)] = mesh;
-    };
+    meshes["ml: " + cell_name] = mesh;
   };
   
-  for(int i = 0; i < line.getPoints().size() - 1; i++){
-    shader->bind();
-    meshes["ml: " + cell_name + " " + std::to_string(i)].render();
-    shader->unbind();
-  };
+  shader->bind();
+  meshes["ml: " + cell_name].render();
+  shader->unbind();
 };
 
 

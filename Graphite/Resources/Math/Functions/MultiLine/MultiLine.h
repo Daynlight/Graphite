@@ -36,7 +36,7 @@ public:
 
   bool getUpdatedState();
 
-  std::vector<std::pair<std::array<std::vector<float>, 2>, std::vector<unsigned int>>> getMesh();
+  std::pair<std::array<std::vector<float>, 2>, std::vector<unsigned int>> getMesh();
 
 };
 };
