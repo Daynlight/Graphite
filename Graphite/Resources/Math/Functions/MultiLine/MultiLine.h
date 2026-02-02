@@ -8,7 +8,11 @@
 #include <array>
 #include <vector>
 
+#ifndef BUILDING_SCRIPT_DLL
 #include "Resources/Math/Functions/Line/Line.h"
+#else
+#include "Graphite/Line.h"
+#endif
 
 
 namespace Graphite::Math{

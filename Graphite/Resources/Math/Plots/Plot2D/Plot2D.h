@@ -23,6 +23,8 @@
   
   CW::Renderer::Uniform* uniform;
   std::unordered_map<std::string, CW::Renderer::Mesh> meshes;
+
+  #include "Mesh2D.h"
 #else
   #include "Graphite/Point.h"
   #include "Graphite/Line.h"
@@ -45,6 +47,12 @@ private:
   void drawPoint(const std::string& cell_name, Graphite::Math::Point point);
   void drawLine(const std::string& cell_name, Graphite::Math::Line line);
   void drawMultiLine(const std::string& cell_name, Graphite::Math::MultiLine line);
+
+  #ifdef BUILDING_SCRIPT_DLL
+    void* mesh_2D_controller;
+  #else
+    Mesh2D* mesh_2D_controller;
+  #endif
 
   std::array<float, 2> pos = {0.0f, 0.0f};
   float zoom = 1.0f;

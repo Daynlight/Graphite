@@ -92,6 +92,17 @@ std::array<unsigned int, 2> Graphite::AppRenderer::getWindowSize(){
 
 
 
+inline float Graphite::AppRenderer::getFPS(){
+  return 1 / renderer->getWindowData()->delta_time;
+};
+
+
+
+
+
+
+
+
 template<typename F>
 void Graphite::AppRenderer::renderFrame(F&& fun){
   renderer->beginFrame();
