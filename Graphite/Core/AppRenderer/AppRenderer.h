@@ -12,7 +12,7 @@
 
 namespace Graphite{
 class AppRenderer{
-private:
+public:
   CW::Renderer::iRenderer* renderer;
 
 public:
@@ -26,6 +26,7 @@ public:
   std::array<float, 2> getDPos();
   float getDZoom();
   std::array<unsigned int, 2> getWindowSize();
+  float getFPS();
 };
 };
 

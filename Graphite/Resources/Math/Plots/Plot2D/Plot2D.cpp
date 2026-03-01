@@ -10,25 +10,11 @@
 void Graphite::Math::Plot2D::drawPoint(const std::string& cell_name, Graphite::Math::Point point){
   
   if(!point.getUpdatedState()){
-    float point_size = point.getSize();
-
-    std::array<float, 2> pos = point.getPos();
-
-    std::vector<float> vertices =
-    {
-      pos[0] - point_size,  pos[1] + point_size, 0.0f,
-      pos[0] - point_size, pos[1] - point_size, 0.0f,
-      pos[0] + point_size,  pos[1] + point_size, 0.0f,
-      pos[0] + point_size, pos[1] - point_size, 0.0f,
-    };
+    std::pair<std::array<std::vector<float>, 2>, std::vector<unsigned int>> mesh_data = point.getMesh(); 
     
-    std::vector<unsigned int> indicies = 
-    {
-      0, 1, 2,
-      1, 3, 2
-    };
-    
-    CW::Renderer::Mesh mesh(vertices, indicies);
+    CW::Renderer::Mesh mesh(mesh_data.first[0], mesh_data.second);
+    mesh.addColors(mesh_data.first[1]);
+
     meshes["p: " + cell_name] = mesh;
   };
 
@@ -46,42 +32,37 @@ void Graphite::Math::Plot2D::drawPoint(const std::string& cell_name, Graphite::M
 void Graphite::Math::Plot2D::drawLine(const std::string& cell_name, Graphite::Math::Line line){
   
   if(!line.getUpdatedState()){
-    float thickness = line.getSize();
+    std::pair<std::array<std::vector<float>, 2>, std::vector<unsigned int>> mesh_data = line.getMesh(); 
 
-    std::pair<std::array<float, 2>, std::array<float, 2>> pos = line.getPos();
-    auto& p0 = pos.first;
-    auto& p1 = pos.second;
-
-    float dx = p1[0] - p0[0];
-    float dy = p1[1] - p0[1];
-    float len = std::sqrt(dx*dx + dy*dy);
-    float nx = -dy / len;
-    float ny = dx / len;
-    float tx = nx * (thickness * 0.5f);
-    float ty = ny * (thickness * 0.5f);
-
-
-    std::vector<float> vertices = {
-      p0[0] + tx, p0[1] + ty, 0.0f,
-      p0[0] - tx, p0[1] - ty, 0.0f,
-      p1[0] + tx, p1[1] + ty, 0.0f,
-      p1[0] - tx, p1[1] - ty, 0.0f 
-    };
-
-    std::vector<unsigned int> indicies = {
-      0, 1, 2,
-      1, 3, 2
-    };
-
-    CW::Renderer::Mesh mesh(vertices, indicies);
+    CW::Renderer::Mesh mesh(mesh_data.first[0], mesh_data.second);
+    mesh.addColors(mesh_data.first[1]);
     meshes["l: " + cell_name] = mesh;
   }
 
   shader->bind();
   meshes["l: " + cell_name].render();
   shader->unbind();
-}
+};
 
+
+
+
+
+
+void Graphite::Math::Plot2D::drawMultiLine(const std::string &cell_name, Graphite::Math::MultiLine line){
+  if(!line.getUpdatedState()){
+    std::pair<std::array<std::vector<float>, 2>, std::vector<unsigned int>> mesh_data = line.getMesh();
+
+    CW::Renderer::Mesh mesh(mesh_data.first[0], mesh_data.second);
+    mesh.addColors(mesh_data.first[1]);
+
+    meshes["ml: " + cell_name] = mesh;
+  };
+  
+  shader->bind();
+  meshes["ml: " + cell_name].render();
+  shader->unbind();
+};
 
 
 
@@ -104,8 +85,6 @@ Graphite::Math::Plot2D::Plot2D(){
 
   pre_shader = new CW::Renderer::DrawShader(vertexPreShader, fragmentPreShader);
   pre_shader->getUniforms().emplace_back(uniform);
-
-  zoom = 10.0f / (1.0f / window_size[0]);
 };
 
 
@@ -137,6 +116,10 @@ void Graphite::Math::Plot2D::draw(){
   pre_shader->bind();
   pre_mesh->render();
   pre_shader->unbind();
+
+  for(std::pair<std::string, Graphite::Math::MultiLine> el : multi_line_cell){
+    drawMultiLine(el.first, el.second);
+  };
 
   for(std::pair<std::string, Graphite::Math::Line> el : line_cell){
     drawLine(el.first, el.second);

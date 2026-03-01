@@ -7,14 +7,18 @@
 #pragma once
 #include <array>
 #include <vector>
-#include <math.h>
+
+#ifndef BUILDING_SCRIPT_DLL
+#include "Resources/Math/Functions/Line/Line.h"
+#else
+#include "Graphite/Line.h"
+#endif
 
 
 namespace Graphite::Math{
-class Line{
+class MultiLine{
 private:
-  std::array<float, 2> pos1 = {0.0f, 0.0f};
-  std::array<float, 2> pos2 = {0.0f, 0.0f};
+  std::vector<std::array<float, 2>> points;
   std::array<float, 3> color = {1.0f, 1.0f, 1.0f};
 
   float size = 1.0f;
@@ -22,11 +26,11 @@ private:
   bool updated = false;
 
 public:
-  Line(std::array<float, 2> pos1 = {0.0f, 0.0f}, std::array<float, 2> pos2 = {0.0f, 0.0f}, float size = 1.0f, std::array<float, 3> color = {1.0f, 1.0f, 1.0f});
-  ~Line();
+  MultiLine(std::vector<std::array<float, 2>> points = {}, float size = 1.0f, std::array<float, 3> color = {1.0f, 1.0f, 1.0f});
+  ~MultiLine();
 
-  std::pair<std::array<float, 2>, std::array<float, 2>> getPos();
-  void setPos(std::array<float, 2> pos1, std::array<float, 2> pos2);
+  std::vector<std::array<float, 2>> getPoints();
+  void setPoints(std::vector<std::array<float, 2>> points);
 
   float getSize();
   void setSize(float size);

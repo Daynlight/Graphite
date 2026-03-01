@@ -13,7 +13,8 @@
 #define MoveSpeed 20.0f
 #define ZoomSpeed 0.02f
 
-#define MAXZOOM 100.0f
+#define MAXZOOM 1000.0f
+#define DEFAULTZOOM 100.0f
 #define MINZOOM 0.001f
 
 extern bool verbose_mode;

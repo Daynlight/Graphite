@@ -14,6 +14,7 @@ set(src
   Core/ScriptController/ScriptController.cpp
   Resources/Math/Functions/Point/Point.cpp
   Resources/Math/Functions/Line/Line.cpp
+  Resources/Math/Functions/MultiLine/MultiLine.cpp
   Resources/Math/Plots/Plot2D/Plot2D.cpp
 )
 

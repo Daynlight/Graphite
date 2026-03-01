@@ -44,7 +44,10 @@ void main() {
 
   modulo = pow(10, floor(log2(window_size.x / camera_zoom) / log2(10)));
   
-  if(abs(worldPos.x) < main_thickness / camera_zoom || abs(worldPos.y) < main_thickness / camera_zoom)
+
+    
+  if(abs(worldPos.x) < main_thickness / camera_zoom || 
+     abs(worldPos.y) < main_thickness / camera_zoom)
     FragColor = vec4(1.0, 1.0, 1.0, 0.7);
 
   else if(abs(mod(worldPos.x, floor(modulo))) < side_thickness / camera_zoom || 

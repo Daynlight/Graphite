@@ -13,8 +13,8 @@
 
 
 class Script : ScriptInterface{
-  Graphite::Math::Point control_points[3] = {{{-7, 5}, 0.2f, {0.0, 0.0, 1.0}}, 
-                                             {{3, -5}, 0.2f, {0.0, 0.0, 1.0}}, 
+  Graphite::Math::Point control_points[3] = {{{-7, 8}, 0.2f, {0.0, 0.0, 1.0}}, 
+                                             {{4, -9}, 0.2f, {0.0, 0.0, 1.0}}, 
                                              {{7, 3}, 0.2f, {0.0, 0.0, 1.0}}};
 
   Graphite::Math::Plot2D plot;

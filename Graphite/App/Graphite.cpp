@@ -5,6 +5,7 @@
 
 
 #include "Graphite.h"
+#include "Gui.h"
 
 bool verbose_mode = 0;
 bool sandbox_mode = 0;
@@ -77,28 +78,39 @@ void Graphite::Graphite::calculateWindowSize(AppRenderer *renderer) {
 };
 
 
-
-
+inline const std::function<void(CW::Renderer::iRenderer *renderer)> fpsGui(){
+  return [](CW::Renderer::iRenderer* renderer){
+    ImGui::Text("fps: %f", 1 / renderer->getWindowData()->delta_time);
+  };
+};
 
 
 
 
 void Graphite::Graphite::runProgram(){
   AppRenderer renderer;
+  CW::Gui::Gui gui(renderer.renderer);
   ScriptLoader script(path);
+
+  gui.addWindow("FPS", fpsGui());
 
 
   while(renderer.isRunning()){
+    
     calculateDeltas(&renderer);
     calculateWindowSize(&renderer);
-
+    
     if(script.checkLastWrite()) 
-      script.updateScript();
-
+    script.updateScript();
+    
     script.update();
-
-    renderer.renderFrame([&script](){
+    
+    renderer.renderFrame([&script, &gui](){
       script.draw();
+      if(verbose_mode)
+        gui.render();
     });
+
+
   };
 };
