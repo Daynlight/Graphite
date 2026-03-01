@@ -85,8 +85,6 @@ Graphite::Math::Plot2D::Plot2D(){
 
   pre_shader = new CW::Renderer::DrawShader(vertexPreShader, fragmentPreShader);
   pre_shader->getUniforms().emplace_back(uniform);
-
-  zoom = 10.0f / (1.0f / window_size[0]);
 };
 
 
