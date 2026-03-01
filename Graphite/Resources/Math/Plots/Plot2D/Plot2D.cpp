@@ -13,7 +13,7 @@ void Graphite::Math::Plot2D::drawPoint(const std::string& cell_name, Graphite::M
     std::pair<std::array<std::vector<float>, 2>, std::vector<unsigned int>> mesh_data = point.getMesh(); 
     
     CW::Renderer::Mesh mesh(mesh_data.first[0], mesh_data.second);
-    mesh.addColors(mesh_data.first[1]);
+    // mesh.addColors(mesh_data.first[1]);
 
     meshes["p: " + cell_name] = mesh;
   };
@@ -35,7 +35,7 @@ void Graphite::Math::Plot2D::drawLine(const std::string& cell_name, Graphite::Ma
     std::pair<std::array<std::vector<float>, 2>, std::vector<unsigned int>> mesh_data = line.getMesh(); 
 
     CW::Renderer::Mesh mesh(mesh_data.first[0], mesh_data.second);
-    mesh.addColors(mesh_data.first[1]);
+    // mesh.addColors(mesh_data.first[1]);
     meshes["l: " + cell_name] = mesh;
   }
 
@@ -54,7 +54,7 @@ void Graphite::Math::Plot2D::drawMultiLine(const std::string &cell_name, Graphit
     std::pair<std::array<std::vector<float>, 2>, std::vector<unsigned int>> mesh_data = line.getMesh();
 
     CW::Renderer::Mesh mesh(mesh_data.first[0], mesh_data.second);
-    mesh.addColors(mesh_data.first[1]);
+    // mesh.addColors(mesh_data.first[1]);
 
     meshes["ml: " + cell_name] = mesh;
   };
