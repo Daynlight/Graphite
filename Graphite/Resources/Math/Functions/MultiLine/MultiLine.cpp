@@ -126,14 +126,16 @@ std::pair<std::array<std::vector<float>, 2>, std::vector<unsigned int>> Graphite
     
     for(int j = 0; j < 3 * 2; j++)
       mesh.second.emplace_back((i - 1) * 4 + mesh_temp.second[j]);
-    
-    for(int j = 0; j < 2; j++)
-      mesh.second.emplace_back((i - 1) * 4 + mesh_temp.second[j]);
-    mesh.second.emplace_back((i - 1) * 4 - 2);
 
-    for(int j = 0; j < 2; j++)
-      mesh.second.emplace_back((i - 1) * 4 + mesh_temp.second[j]);
-    mesh.second.emplace_back((i - 1) * 4 - 1);
+    if(i > 1){  
+      for(int j = 0; j < 2; j++)
+        mesh.second.emplace_back((i - 1) * 4 + mesh_temp.second[j]);
+      mesh.second.emplace_back((i - 1) * 4 - 2);
+
+      for(int j = 0; j < 2; j++)
+        mesh.second.emplace_back((i - 1) * 4 + mesh_temp.second[j]);
+      mesh.second.emplace_back((i - 1) * 4 - 1);
+    }
 
   };
   

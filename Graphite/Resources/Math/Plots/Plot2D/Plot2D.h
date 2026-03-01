@@ -55,7 +55,7 @@ private:
   #endif
 
   std::array<float, 2> pos = {0.0f, 0.0f};
-  float zoom = DEFAULTZOOM;
+  float zoom = 100.0f;
 
 public:
   Plot2D();
