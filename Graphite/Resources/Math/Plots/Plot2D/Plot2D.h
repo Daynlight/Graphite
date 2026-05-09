@@ -7,7 +7,7 @@
 #pragma once
 #ifndef BUILDING_SCRIPT_DLL
   #include "Mesh/Mesh.h"
-  #include "Shader/DrawShader.h"
+  #include "Shader/Shader/Shader.h"
   #include "Uniform/Uniform.h"
   #include "Resources/Math/Functions/Point/Point.h"
   #include "Resources/Math/Functions/Line/Line.h"
@@ -16,10 +16,10 @@
   #include "PreShader.h"
   #include "Globals.h"
 
-  CW::Renderer::DrawShader* pre_shader;
+  CW::Renderer::Shader* pre_shader;
   CW::Renderer::Mesh* pre_mesh;
 
-  CW::Renderer::DrawShader* shader;
+  CW::Renderer::Shader* shader;
   
   CW::Renderer::Uniform* uniform;
   std::unordered_map<std::string, CW::Renderer::Mesh> meshes;

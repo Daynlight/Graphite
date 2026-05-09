@@ -12,8 +12,10 @@ void Graphite::Math::Plot2D::drawPoint(const std::string& cell_name, Graphite::M
   if(!point.getUpdatedState()){
     std::pair<std::array<std::vector<float>, 2>, std::vector<unsigned int>> mesh_data = point.getMesh(); 
     
-    CW::Renderer::Mesh mesh(mesh_data.first[0], mesh_data.second);
-    mesh.addColors(mesh_data.first[1]);
+    CW::Renderer::Mesh mesh;
+    mesh.addVertices(mesh_data.first[0], 3, 0);
+    mesh.addIndices(mesh_data.second);
+    mesh.setData<float>(mesh_data.first[1], 3, 1);
 
     meshes["p: " + cell_name] = mesh;
   };
@@ -33,9 +35,12 @@ void Graphite::Math::Plot2D::drawLine(const std::string& cell_name, Graphite::Ma
   
   if(!line.getUpdatedState()){
     std::pair<std::array<std::vector<float>, 2>, std::vector<unsigned int>> mesh_data = line.getMesh(); 
+    
+    CW::Renderer::Mesh mesh;
+    mesh.addVertices(mesh_data.first[0], 3, 0);
+    mesh.addIndices(mesh_data.second);
+    mesh.setData<float>(mesh_data.first[1], 3, 1);
 
-    CW::Renderer::Mesh mesh(mesh_data.first[0], mesh_data.second);
-    mesh.addColors(mesh_data.first[1]);
     meshes["l: " + cell_name] = mesh;
   }
 
@@ -52,9 +57,11 @@ void Graphite::Math::Plot2D::drawLine(const std::string& cell_name, Graphite::Ma
 void Graphite::Math::Plot2D::drawMultiLine(const std::string &cell_name, Graphite::Math::MultiLine line){
   if(!line.getUpdatedState()){
     std::pair<std::array<std::vector<float>, 2>, std::vector<unsigned int>> mesh_data = line.getMesh();
-
-    CW::Renderer::Mesh mesh(mesh_data.first[0], mesh_data.second);
-    mesh.addColors(mesh_data.first[1]);
+    
+    CW::Renderer::Mesh mesh;
+    mesh.addVertices(mesh_data.first[0], 3, 0);
+    mesh.addIndices(mesh_data.second);
+    mesh.setData<float>(mesh_data.first[1], 3, 1);
 
     meshes["ml: " + cell_name] = mesh;
   };
@@ -70,20 +77,34 @@ void Graphite::Math::Plot2D::drawMultiLine(const std::string &cell_name, Graphit
 
 Graphite::Math::Plot2D::Plot2D(){
   uniform = new CW::Renderer::Uniform;
-  shader = new CW::Renderer::DrawShader(vertexFillShader, fragmentFillShader);
+  shader = new CW::Renderer::Shader(vertexFillShader, fragmentFillShader);
   shader->getUniforms().emplace_back(uniform);
 
-  pre_mesh = new CW::Renderer::Mesh({
+  // pre_mesh = new CW::Renderer::Mesh({
+  //   -1.0f, -1.0f, 0.1f,
+  //   1.0f, -1.0f, 0.1f,
+  //   -1.0f, 1.0f, 0.1f,
+  //   1.0f, 1.0f, 0.1f
+  // },{
+  //   0, 1, 2,
+  //   1, 2, 3
+  // });
+
+  pre_mesh = new CW::Renderer::Mesh;
+  pre_mesh->addVertices({
     -1.0f, -1.0f, 0.1f,
     1.0f, -1.0f, 0.1f,
     -1.0f, 1.0f, 0.1f,
     1.0f, 1.0f, 0.1f
-  },{
+  }, 3, 0);
+
+  pre_mesh->addIndices({
     0, 1, 2,
     1, 2, 3
   });
 
-  pre_shader = new CW::Renderer::DrawShader(vertexPreShader, fragmentPreShader);
+
+  pre_shader = new CW::Renderer::Shader(vertexPreShader, fragmentPreShader);
   pre_shader->getUniforms().emplace_back(uniform);
 };
 
